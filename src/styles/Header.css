@@ -1,0 +1,219 @@
+/* Dark and Light Theme Variables */
+:root {
+  --white: #000;
+  --black: #fff;
+  --fontcolor: #000;
+  --primary: #13343b;
+  --secondary: #666666;
+  --secondary-dark-bg: #f3f3ee;
+  --primary-dark-bg: #fcfcf9;
+  --active: #49785eff;
+  --badge-bg: #e0e0e0;
+  --header-section-acc: #e0e0e0;
+  --side-nav-bg: #f9f9f9;
+  --svg-dark-grey-filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(28%) contrast(100%);
+  --svg-green-filter: brightness(0) saturate(100%) invert(41%) sepia(23%) saturate(641%) hue-rotate(94deg) brightness(96%) contrast(84%);
+  --svg-lighner: brightness(160%);
+  --border-color: #d9d9d0;
+  --border: 2px;
+  --hover: #d7d7d7;
+  --font-weight: 400;
+  --invert-filter: invert(100%);
+  --green-text: #DF373B;
+  --tool-tip: #f3f3ee;
+}
+
+[data-theme="dark"] {
+  --white: #fff;
+  --black: #000;
+  --fontcolor: #fff;
+  --primary: #d9d9d9;
+  --secondary: #919191;
+  --secondary-dark-bg: #3f3e3e;
+  --primary-dark-bg: #252525;
+  --active: #9fffac;
+  --badge-bg: #333232;
+  --header-section-acc: #333232;
+  --side-nav-bg: #181818;
+  --svg-dark-grey-filter: none;
+  --svg-green-filter: none;
+  --svg-lighner: none;
+  --hover: #333333;
+  --font-weight: 300;
+  --border: 1px;
+  --border-color: var(--secondary-dark-bg);
+  --invert-filter: none;
+  --green-text: #73c1b9;
+  --tool-tip: #3f3e3e;
+
+}
+
+
+
+
+
+/* General Header Styles */
+.header {
+  padding: 20px;
+  background-color: var(--primary-dark-bg);
+  color: var(--primary);
+  position: fixed;
+  max-width: calc(100vw - 40px);
+  min-width: calc(100vw - 40px);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px var(--border-color);
+}
+
+/* Left Section (Logo) */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+}
+
+/* Right Section (Functionalities) */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.apurva-logo {
+  height: 30px;
+  width: auto;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  display: flex;
+  background: none;
+  border: 3px solid;
+  border-radius: 15%;
+  font-size: 1.5rem;
+  margin: auto;
+  cursor: pointer;
+  background-color: var(--primary-dark-bg);
+  color: var(--primary);
+  align-content: center;
+  justify-content: center;
+}
+
+/* User Section */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-icon {
+  height: 35px;
+  width: auto;
+  border-radius: 50%;
+}
+
+.auth-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 300px;
+  background-color: var( --primary-dark-bg);
+  color: var(--primary);
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px var(--border-color);
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form h2 {
+  margin-bottom: 15px;
+}
+
+.auth-form input {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.auth-submit-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-submit-button:hover {
+  background-color: #0056b3;
+}
+
+.auth-switch {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.auth-switch-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.auth-switch-button:hover {
+  text-decoration: underline;
+}
+
+
+
+/* General Styles for Home Page */
+.home {
+  padding: 1rem 2rem;
+}
+
+/* Search Bar */
+.search-bar {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar input {
+  width: 300px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Card Container */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}

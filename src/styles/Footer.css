@@ -1,0 +1,107 @@
+/* Footer Styles */
+
+.footer-sectionrk {
+  display: flex
+;
+  align-items: center;
+  flex-direction: column;
+  min-height: 50vh;
+  justify-content: flex-end;
+  background-color: var(--primary-dark-bg);
+  color: var(--primary);
+  width: 95%;
+  margin: 0 auto;
+}
+
+
+.footer {
+  position: fixed;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--white);
+  color: var(--black);
+  bottom: 0;
+  width: 70vw;
+  font-family: Arial, sans-serif; /* Added a default font-family for better readability */
+  box-shadow: 0 -2px 5px var(--border-color); /* Subtle shadow to separate footer from content */
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.footer h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  display: flex; /* Align items horizontally */
+  justify-content: center; /* Center the elements */
+  align-items: center; /* Vertically center the input and button */
+  gap: 10px; /* Add space between the input and button */
+  width: 100%;
+  margin: 20px;
+}
+
+
+.footer .input-container input {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 600px;
+  padding: 15px 25px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.footer .input-container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 15px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.footer .input-container button:hover {
+  background-color: #0056b3;
+}
+.footer .input-container svg {
+  font-size: 18px; /* Adjust the size of the icon */
+}
+
+.footer .answer {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 20px; /* Space between answer and input */
+  text-align: left;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Responsive Design for Footer */
+@media (max-width: 768px) {
+  .footer {
+    font-size: 0.8rem; /* Slightly smaller font size for smaller screens */
+    padding: 0.8rem;
+  }
+}

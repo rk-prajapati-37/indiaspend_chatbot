@@ -1,0 +1,138 @@
+/* Sidebar styles */
+.sidebar {
+  width: 250px;
+  margin-top: 4%;
+  background-color: var(--primary-dark-bg);
+  color: var(--primary);
+  padding: 20px;
+  box-shadow: 0 4px 8px var(--border-color);
+}
+
+.sidebar.collapsed {
+  width: 60px; /* Adjusted collapsed width */
+  padding-top: 4.5%;
+}
+
+.toggle-button {
+  text-align: center;
+  width: 100%;
+  border: none;
+  color: #000;
+  display: flex;
+  padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  align-items: center;
+  gap: 10px;
+  font-size: 2rem;
+}
+
+
+.sidebar-content {
+  padding-top: 20%;
+  text-align: left;
+  max-height: calc(100vh - 100px);
+  min-height: calc(100vh - 100px);;
+}
+.sidebar-content .sidebar-text {
+  font-size: 1rem;
+}
+
+.faq-button, .new-thread-button {
+  width: 100%;
+  border: none;
+  color: #000;
+  font-size: 1rem;
+  display: flex;
+  padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  align-items: center;
+  gap: 10px;
+}
+button.faq-button, .new-thread-button {
+  font-size: 2.2rem;
+}
+.faq-button:hover,
+.new-thread-button:hover {
+  background-color: #0056b3;
+}
+
+.previous-questions {
+  margin-top: 20px;
+}
+
+.previous-questions h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.previous-questions p {
+  font-size: 14px;
+  color: #555;
+}
+.previous-questions ul {
+  padding: 0;
+}
+.previous-questions ul li {
+  display: flex;
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin: 5px auto;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px; /* Reduced sidebar width on mobile */
+  }
+
+  .sidebar.collapsed {
+    width: 50px; /* Even smaller collapsed sidebar */
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 150px; /* Further reduce width on very small screens */
+  }
+
+  .sidebar.collapsed {
+    width: 40px; /* Even smaller collapsed sidebar */
+  }
+
+  .faq-button,
+  .new-thread-button {
+    font-size: 14px; /* Smaller text on smaller screens */
+  }
+}
+
+/* Icon-only state for collapsed sidebar */
+.sidebar.collapsed .faq-button,
+.sidebar.collapsed .new-thread-button {
+  padding: 10px;
+  font-size: 20px; /* Icon size */
+}
+
+.sidebar.collapsed .previous-questions h3,
+.sidebar.collapsed .previous-questions p {
+  display: none; /* Hide text when collapsed */
+}
+
+.sidebar.collapsed .toggle-button {
+  font-size: 18px; /* Increase button size when collapsed */
+}
