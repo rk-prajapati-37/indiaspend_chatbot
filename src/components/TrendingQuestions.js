@@ -75,7 +75,7 @@ function TrendingQuestions() {
       setLoading(true);
       try {
         const response = await fetch(
-          "http://u4sg8g4ks4k0k8g00osgwos0.178.16.139.168.sslip.io/generate_questions",
+          "https://toolbox.boomlive.in/api_project/indiaspendtemp.php?pulljson=true",
           { method: "GET", headers: { "Content-Type": "application/json" } }
         );
 
@@ -84,7 +84,7 @@ function TrendingQuestions() {
         }
 
         const data = await response.json();
-        const cleanedQuestions = data.questions.map(cleanQuestion);
+        const cleanedQuestions = data.latest_json.questions.map(cleanQuestion);
         const nonEmptyQuestions = cleanedQuestions.filter((q) => q !== "");
         setQuestionsSet(nonEmptyQuestions);
         const randomQuestions = getRandomQuestions(nonEmptyQuestions, 4);
@@ -110,7 +110,6 @@ function TrendingQuestions() {
         )}&thread_id=default`,
         { method: "GET", headers: { "Content-Type": "application/json" } }
       );
-
       if (!response.ok) {
         throw new Error("Failed to get answer");
       }
@@ -227,8 +226,13 @@ function TrendingQuestions() {
           <div className="history-section">
             <div className="history-list">
               <ul className="history-items">
-                {history.map((item, index) => (
-                  <li key={index} className="history-card">
+                {[...history].reverse().map((item, index) => (
+                  <li
+                    key={index}
+                    className={`history-card ${
+                      expandedAnswer === item.answer ? "expanded" : ""
+                    }`}
+                  >
                     <div className="question-content">
                       <div className="question-icon">
                         <FcVoicePresentation />
@@ -252,10 +256,13 @@ function TrendingQuestions() {
                             ? item.answer
                             : `${item.answer.substring(0, 250)}...`}
                         </ReactMarkdown>
-                        <div className="sources-section">
-                          <h4>Sources:</h4>
-                          {renderSources()}
-                        </div>
+
+                        {expandedAnswer === item.answer && (
+                          <div className="sources-section">
+                            <h4>Sources:</h4>
+                            {renderSources()}
+                          </div>
+                        )}
                       </p>
                     </div>
                   </li>
@@ -276,55 +283,7 @@ function TrendingQuestions() {
             </div>
           </div>
         ) : selectedQuestion ? (
-          <div className="question-answer">
-            <div className="question-content">
-              <div className="question-icon">
-                <FcVoicePresentation />
-              </div>
-              <h3>{selectedQuestion}</h3>
-            </div>
-            <div className="answer-content">
-              <div className="answer-icon">
-                <FcReading />
-              </div>
-              <div className="answer-txt-rk">{renderAnswerPoints()}</div>
-            </div>
-            <div className="sources-section">
-              <h4>Sources:</h4>
-              {sources.length > 0 ? (
-                <ul>
-                  {sources.map((source, index) => (
-                    <li key={index} className="sources-tle-url">
-                      {/* <FcAbout size={30} /> */}
-                      <div className="txt-source-url">
-                        <a
-                          href={source.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <img
-                            src={source.image}
-                            alt={source.title}
-                            className="source-image"
-                          />
-                          <span>{source.title || source.url}</span>
-                        </a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No sources available.</p>
-              )}
-            </div>
-
-            <button
-              onClick={() => setSelectedQuestion(null)}
-              aria-label="Go back to question list"
-            >
-              <FcLeftUp2 size={30} color="blue" /> Back
-            </button>
-          </div>
+          <div></div>
         ) : (
           <div className="questions-grid">
             {Array.isArray(questions) && questions.length > 0 ? (
@@ -344,11 +303,8 @@ function TrendingQuestions() {
               <p>No questions found.</p>
             )}
 
-            <div className="refresh-button-container">
-              <button onClick={handleRefresh}>
-                Refresh{" "}
-                <FcRefresh size={30} color="blue" className="refreshingrk" />
-              </button>
+            <div className="refresh-section" onClick={handleRefresh}>
+              <FcRefresh size={30} />
             </div>
           </div>
         )}
