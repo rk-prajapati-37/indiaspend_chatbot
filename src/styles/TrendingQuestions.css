@@ -139,7 +139,7 @@ h2 {
   color: var(--primary);
   border-radius: 5px;
   margin-top: 20px;
-  max-height: 400px;
+  max-height: 520px;
   overflow-y: auto;
 }
 
@@ -180,7 +180,7 @@ h2 {
 }
 
 .history-list {
-  max-height: 700px; /* Set max-height for scrolling */
+  max-height: 400px; /* Set max-height for scrolling */
   overflow-y: auto;  /* Enable scrolling */
   padding-right: 10px; /* Add space on the right for scroll */
 }
@@ -287,6 +287,8 @@ li.history-card .answer-content p.answer-preview p {
   color: var(--primary);
   padding: 10px 5px;
   border-radius: 10px;
+  max-height: 400px;
+    overflow: auto;
 }
 
 .answer-preview:hover {

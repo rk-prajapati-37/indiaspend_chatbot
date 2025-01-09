@@ -396,10 +396,10 @@ function TrendingQuestions() {
             </div>
           </div>
         )}
+        <div className="footer-sectionrk">
+          <Footer onSubmitQuestion={handleQuestionClick} />
+        </div>
       </main>
-      <div className="footer-sectionrk">
-        <Footer onSubmitQuestion={handleQuestionClick} />
-      </div>
     </>
   );
 }
