@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { AiFillAccountBook } from "react-icons/ai";
 import {
@@ -69,7 +69,17 @@ function TrendingQuestions() {
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState([]);
   const [expandedAnswer, setExpandedAnswer] = useState(null);
+  const lastAnswerRef = useRef(null);
 
+  useEffect(() => {
+    // Scroll to the last answer when it is expanded
+    if (lastAnswerRef.current) {
+      lastAnswerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [history, expandedAnswer]);
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoading(true);
@@ -222,7 +232,7 @@ function TrendingQuestions() {
     <>
       <main className="trending-questions">
         <h2>Trending Questions</h2>
-        {history.length > 0 && (
+        {/* {history.length > 0 && (
           <div className="history-section">
             <div className="history-list">
               <ul className="history-items">
@@ -270,6 +280,61 @@ function TrendingQuestions() {
               </ul>
             </div>
           </div>
+        )} */}
+        {history.length > 0 && (
+          <div className="history-section">
+            <div className="history-list">
+              <ul className="history-items">
+                {[...history].reverse().map((item, index, array) => (
+                  <li
+                    key={index}
+                    className={`history-card ${
+                      expandedAnswer === item.answer ||
+                      index === array.length - 1
+                        ? "expanded"
+                        : ""
+                    }`}
+                    ref={index === array.length - 1 ? lastAnswerRef : null}
+                  >
+                    <div className="question-content">
+                      <div className="question-icon">
+                        <FcVoicePresentation />
+                      </div>
+                      <h3 className="question-text">{item.question}</h3>
+                    </div>
+                    <div className="answer-content">
+                      <div className="answer-icon">
+                        <FcReading />
+                      </div>
+                      <p
+                        className="answer-preview"
+                        onClick={() =>
+                          setExpandedAnswer(
+                            expandedAnswer === item.answer ? null : item.answer
+                          )
+                        }
+                      >
+                        <ReactMarkdown>
+                          {expandedAnswer === item.answer ||
+                          index === array.length - 1
+                            ? item.answer
+                            : `${item.answer.substring(0, 250)}...`}
+                        </ReactMarkdown>
+
+                        {(expandedAnswer === item.answer ||
+                          index === array.length - 1) && (
+                          <div className="sources-section">
+                            <h4>Sources:</h4>
+                            {renderSources()}
+                          </div>
+                        )}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         )}
 
         {error && <p className="error">{error}</p>}
@@ -285,6 +350,26 @@ function TrendingQuestions() {
         ) : selectedQuestion ? (
           <div></div>
         ) : (
+          // <div className="question-full-answer">
+          //   <div className="question-content">
+          //     <div className="question-icon">
+          //       <FcVoicePresentation />
+          //     </div>
+          //     <h3 className="question-text">{selectedQuestion}</h3>
+          //   </div>
+          //   <div className="answer-content">
+          //     <div className="answer-icon">
+          //       <FcReading />
+          //     </div>
+          //     <p className="answer-full">
+          //       <ReactMarkdown>{answer}</ReactMarkdown>
+          //       <div className="sources-section">
+          //         <h4>Sources:</h4>
+          //         {renderSources()}
+          //       </div>
+          //     </p>
+          //   </div>
+          // </div>
           <div className="questions-grid">
             {Array.isArray(questions) && questions.length > 0 ? (
               questions.map((q, index) => (
@@ -302,9 +387,12 @@ function TrendingQuestions() {
             ) : (
               <p>No questions found.</p>
             )}
-
+            <div></div>
             <div className="refresh-section" onClick={handleRefresh}>
-              <FcRefresh size={30} />
+              <div className="ref-txt-rk"> Refresh </div>
+              <div className="answer-icon refreshingrk">
+                <FcRefresh size={30} />
+              </div>
             </div>
           </div>
         )}

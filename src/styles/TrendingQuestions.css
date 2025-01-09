@@ -143,6 +143,19 @@ h2 {
   overflow-y: auto;
 }
 
+.history-section{
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+::-webkit-scrollbar-thumb {
+  background: #FF0000;
+}
+
+
 .history-items {
   display: flex;
   flex-direction: column-reverse; /* Ensure latest items are shown at the bottom */
@@ -167,7 +180,7 @@ h2 {
 }
 
 .history-list {
-  max-height: 300px; /* Set max-height for scrolling */
+  max-height: 700px; /* Set max-height for scrolling */
   overflow-y: auto;  /* Enable scrolling */
   padding-right: 10px; /* Add space on the right for scroll */
 }
@@ -282,7 +295,22 @@ li.history-card .answer-content p.answer-preview p {
   text-decoration: none;
 }
 
-.refresh-button-container button {
+
+.refresh-section {
+  display: flex;
+  background-color: var(--primary-dark-bg);
+  color: var(--primary);
+  padding: 15px;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* .refresh-button-container button {
   background-color: transparent;
   border: 0;
   display: flex;
@@ -290,8 +318,11 @@ li.history-card .answer-content p.answer-preview p {
   cursor: pointer;
   font-weight: 700;
   gap: 5px;
+} */
+.refresh-section .ref-txt-rk {
+  font-size: larger;
+  font-weight: 600;
 }
-
 .refreshingrk:hover {
   animation: rotateCircles 2.5s linear infinite;
   cursor: pointer;

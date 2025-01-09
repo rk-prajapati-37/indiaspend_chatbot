@@ -1,11 +1,10 @@
 /* Footer Styles */
 
 .footer-sectionrk {
-  display: flex
-;
+  display: flex;
   align-items: center;
   flex-direction: column;
-  min-height: 50vh;
+  /* min-height: 50vh; */
   justify-content: flex-end;
   background-color: var(--primary-dark-bg);
   color: var(--primary);
@@ -22,7 +21,7 @@
   background-color: var(--white);
   color: var(--black);
   bottom: 0;
-  width: 70vw;
+  width: 78.6vw;
   font-family: Arial, sans-serif; /* Added a default font-family for better readability */
   box-shadow: 0 -2px 5px var(--border-color); /* Subtle shadow to separate footer from content */
 }
