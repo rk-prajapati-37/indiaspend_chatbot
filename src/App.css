@@ -188,6 +188,21 @@ h3 {
   .sources-section ul{
     grid-template-columns: repeat(1, 1fr);
   }
+
+  .question-tt-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+.question-tt-title h3 {
+  font-size: 1.2rem;
+}
+
+.footer-sectionrk .footer .footer-content .input-container {
+  margin: 15px 0;
+  width: 95%;
+}
 }
 
 @media (max-width: 480px) {

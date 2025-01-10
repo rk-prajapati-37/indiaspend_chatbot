@@ -12,14 +12,16 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <Header />
         <div className="main-content">
-          <Sidebar />
-          <div className="content-container">
-            <Routes>
-              <Route path="/" element={<TrendingQuestions />} />
-              {/* Add routes for other pages */}
-            </Routes>
+          <Header />
+          <div className="main-content">
+            <Sidebar />
+            <div className="content-container">
+              <Routes>
+                <Route path="/" element={<TrendingQuestions />} />
+                {/* Add routes for other pages */}
+              </Routes>
+            </div>
           </div>
         </div>
         {/* <Footer /> */}

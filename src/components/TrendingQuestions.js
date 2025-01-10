@@ -21,6 +21,7 @@ import {
   FaThumbsUp,
   FaBullseye,
   FaExclamationCircle,
+  FaLongArrowAltDown,
 } from "react-icons/fa";
 import Footer from "./Footer";
 import "../styles/TrendingQuestions.css";
@@ -232,7 +233,6 @@ function TrendingQuestions() {
   return (
     <>
       <main className="trending-questions">
-        <h2>Trending Questions</h2>
         {/* {history.length > 0 && (
           <div className="history-section">
             <div className="history-list">
@@ -328,12 +328,14 @@ function TrendingQuestions() {
                             {renderSources()}
                           </div>
                         )}{" "}
-                        <div className="tex-expand-rk">
-                          <div className="expad-answer-icon">
-                            <FcLeftDown2 size={30} />
-                          </div>
-                          <div className="expad-txt-rk">
-                            <span> Expand </span>
+                        <div className="expand-container">
+                          <div className="tex-expand-rk">
+                            <div className="expad-answer-icon">
+                              <FaLongArrowAltDown size={30} />
+                            </div>
+                            <div className="expad-txt-rk">
+                              <span> Expand </span>
+                            </div>
                           </div>
                         </div>
                       </p>
@@ -351,6 +353,7 @@ function TrendingQuestions() {
           <div className="loading">
             <div className="skeleton-card">
               <div className="skeleton-loader"></div>
+              <div className="skeleton-item"></div>
               <div className="skeleton-item"></div>
               <div className="skeleton-item"></div>
             </div>
@@ -378,7 +381,12 @@ function TrendingQuestions() {
           //     </p>
           //   </div>
           // </div>
+
           <div className="questions-grid">
+            <div className="tren-q-tit">
+              <h2>Trending Questions</h2>
+            </div>
+            <div></div>
             {Array.isArray(questions) && questions.length > 0 ? (
               questions.map((q, index) => (
                 <div
@@ -402,9 +410,9 @@ function TrendingQuestions() {
                 <FcRefresh size={30} />
               </div>
             </div>
-            <div className="question-tt-title">
+            {/* <div className="question-tt-title">
               <h3>Where Facts Meet Your Questions</h3>
-            </div>
+            </div> */}
           </div>
         )}
         <div className="footer-sectionrk">

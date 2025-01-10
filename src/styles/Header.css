@@ -7,7 +7,7 @@
   --secondary: #666666;
   --secondary-dark-bg: #f3f3ee;
   --primary-dark-bg: #fcfcf9;
-  --active: #49785eff;
+  --active: #0070cc;
   --badge-bg: #e0e0e0;
   --header-section-acc: #e0e0e0;
   --side-nav-bg: #f9f9f9;
@@ -31,7 +31,7 @@
   --secondary: #919191;
   --secondary-dark-bg: #3f3e3e;
   --primary-dark-bg: #252525;
-  --active: #9fffac;
+  --active: #007bff;
   --badge-bg: #333232;
   --header-section-acc: #333232;
   --side-nav-bg: #181818;
@@ -95,7 +95,7 @@
 .theme-toggle {
   display: flex;
   background: none;
-  border: 3px solid;
+  border: 3px solid var(--primary-dark-bg);
   border-radius: 15%;
   font-size: 1.5rem;
   margin: auto;

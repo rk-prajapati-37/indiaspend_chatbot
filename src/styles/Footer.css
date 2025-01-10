@@ -13,7 +13,7 @@
 }
 
 
-.footer {
+.footer-sectionrk .footer {
   position: fixed;
   text-align: center;
   padding: 0.5rem;
@@ -21,7 +21,7 @@
   background-color: var(--white);
   color: var(--black);
   bottom: 0;
-  width: 78.6vw;
+  width: 60vw;
   font-family: Arial, sans-serif; /* Added a default font-family for better readability */
   box-shadow: 0 -2px 5px var(--border-color); /* Subtle shadow to separate footer from content */
 }
