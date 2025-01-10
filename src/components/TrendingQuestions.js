@@ -12,6 +12,7 @@ import {
   FcCloseUpMode,
   FcDownRight,
   FcQuestions,
+  FcLeftDown2,
   FcAbout,
 } from "react-icons/fc";
 import {
@@ -320,14 +321,21 @@ function TrendingQuestions() {
                             ? item.answer
                             : `${item.answer.substring(0, 250)}...`}
                         </ReactMarkdown>
-
                         {(expandedAnswer === item.answer ||
                           index === array.length - 1) && (
                           <div className="sources-section">
                             <h4>Sources:</h4>
                             {renderSources()}
                           </div>
-                        )}
+                        )}{" "}
+                        <div className="tex-expand-rk">
+                          <div className="expad-answer-icon">
+                            <FcLeftDown2 size={30} />
+                          </div>
+                          <div className="expad-txt-rk">
+                            <span> Expand </span>
+                          </div>
+                        </div>
                       </p>
                     </div>
                   </li>
@@ -393,6 +401,9 @@ function TrendingQuestions() {
               <div className="answer-icon refreshingrk">
                 <FcRefresh size={30} />
               </div>
+            </div>
+            <div className="question-tt-title">
+              <h3>Where Facts Meet Your Questions</h3>
             </div>
           </div>
         )}

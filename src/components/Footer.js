@@ -20,7 +20,7 @@ const Footer = ({ onSubmitQuestion }) => {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <h3>Where Facts Meet Your Questions</h3>
+        {/* <h3>Where Facts Meet Your Questions</h3> */}
         <div className="input-container">
           {/* Input field with an icon */}
           <input

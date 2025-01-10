@@ -3,10 +3,10 @@
   align-items: center;
   flex-direction: column;
   flex: 1 1;
-  padding: 20px;
+  padding: 10px;
   margin-top: 4%;
-  gap: 20px;
-  background-color: var(--primary-dark-bg);
+  gap: 10px;
+  background-color: var( --secondary-dark-bg);
   color: var(--primary);
   border: 1px solid var(--border-color);
   overflow: hidden;
@@ -19,7 +19,7 @@
   flex-direction: column;
   min-height: 100vh; /* Ensure the container takes full height */
   justify-content: flex-start; /* Align the content at the top */
-  background-color: var( --primary-dark-bg);
+  background-color: var( --secondary-dark-bg);
   color: var(--primary);
   width: 95%;
   margin: 0 auto;
@@ -135,15 +135,12 @@ h2 {
 
 /* History Section */
 .history-section {
-  background-color: var( --primary-dark-bg);
+  background-color: var(--secondary-dark-bg);
   color: var(--primary);
   border-radius: 5px;
   margin-top: 20px;
-  max-height: 520px;
-  overflow-y: auto;
-}
-
-.history-section{
+  max-height: 500px;
+  /* overflow-y: auto; */
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -180,7 +177,7 @@ h2 {
 }
 
 .history-list {
-  max-height: 400px; /* Set max-height for scrolling */
+  max-height: 370px; /* Set max-height for scrolling */
   overflow-y: auto;  /* Enable scrolling */
   padding-right: 10px; /* Add space on the right for scroll */
 }
@@ -195,13 +192,13 @@ h2 {
 
 .history-card {
   max-width: 1200px;
-  padding: 15px;
+   /*padding: 15px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 8px; */
   margin-bottom: 10px;
   background-color: var( --secondary-dark-bg);
   color: var(--primary);
-  box-shadow: 0 4px 8px var(--border-color);
+  /* box-shadow: 0 4px 8px var(--border-color); */
 }
 
 .question-content,
@@ -287,7 +284,7 @@ li.history-card .answer-content p.answer-preview p {
   color: var(--primary);
   padding: 10px 5px;
   border-radius: 10px;
-  max-height: 400px;
+  max-height: 370px;
     overflow: auto;
 }
 
@@ -296,11 +293,29 @@ li.history-card .answer-content p.answer-preview p {
   color: var(--primary);
   text-decoration: none;
 }
-
-
-.refresh-section {
+.tex-expand-rk {
   display: flex;
   background-color: var(--primary-dark-bg);
+  color: var(--primary);
+  padding: 0 5px;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.tex-expand-rk .expad-answer-icon svg {
+  height: 20px;
+  width: 20px;
+}
+.tex-expand-rk .expad-txt-rk {
+  font-size: 15px;
+}
+.refresh-section {
+  display: flex;
+  /* background-color: var(--primary-dark-bg); */
   color: var(--primary);
   padding: 15px;
   margin: 0;
@@ -340,7 +355,15 @@ li.history-card .answer-content p.answer-preview p {
 }
 
 
-
+.question-tt-title {
+  display: flex;
+  /* background-color: var(--primary-dark-bg); */
+  color: var(--primary);
+  margin-right: -30%;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
 
 
 
@@ -350,6 +373,7 @@ li.history-card .answer-content p.answer-preview p {
   justify-content: center;
   align-items: center;
   width: 100%;
+  border: 1px solid var(--border-color);
 }
 
 .skeleton-loader {
