@@ -28,8 +28,6 @@
   overflow: auto;
 } */
 
-
-
 /* TrendingQuestions.css */
 /* .trending-questions {
   display: flex;
@@ -64,8 +62,6 @@
   max-height: 500px;
   overflow: auto;
 }
-
-
 
 h2 {
   margin-bottom: 20px;
@@ -218,7 +214,6 @@ h2 {
 ::-webkit-scrollbar-thumb {
   background: #FF0000;
 }
-
 
 .history-items {
   display: flex;
