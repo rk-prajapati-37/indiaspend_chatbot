@@ -32,7 +32,7 @@ const Footer = ({ onSubmitQuestion }) => {
           />
           <button onClick={handleAskQuestion}>
             {/* Icon added to the button */}
-            <MdSend size={46} />
+            <MdSend />
           </button>
         </div>
         {/* <p>
