@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Footer.css"; // Ensure the case matches the actual file name
-import { AiOutlineSend } from "react-icons/ai"; // Import React Icons
+import { MdSend } from "react-icons/md"; // Import React Icons
 
 const Footer = ({ onSubmitQuestion }) => {
   const [question, setQuestion] = useState("");
@@ -32,7 +32,7 @@ const Footer = ({ onSubmitQuestion }) => {
           />
           <button onClick={handleAskQuestion}>
             {/* Icon added to the button */}
-            <AiOutlineSend />
+            <MdSend size={46} />
           </button>
         </div>
         {/* <p>

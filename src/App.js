@@ -14,15 +14,15 @@ function App() {
       <div className="app">
         <div className="main-content">
           <Header />
-          <div className="main-content">
+          {/* <div className="sub-content"> */}
+          <div className="content-container">
             <Sidebar />
-            <div className="content-container">
-              <Routes>
-                <Route path="/" element={<TrendingQuestions />} />
-                {/* Add routes for other pages */}
-              </Routes>
-            </div>
+            <Routes>
+              <Route path="/" element={<TrendingQuestions />} />
+              {/* Add routes for other pages */}
+            </Routes>
           </div>
+          {/* </div> */}
         </div>
         {/* <Footer /> */}
       </div>

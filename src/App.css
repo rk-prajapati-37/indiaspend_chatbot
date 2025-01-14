@@ -24,11 +24,6 @@ h3 {
   font-size: 1.5rem;
 }
 /* App container with full height */
-.app {
-  display: flex;
-  flex-direction: column; /* Stack header and content vertically */
-  min-height: 100vh; /* Ensures footer stays at the bottom */
-}
 
 /* Header styling */
 /* .header {
@@ -36,13 +31,45 @@ h3 {
   background-color: var( --primary-dark-bg);
   color: var(--primary);
 } */
+/* General App Container */
+.app {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures footer is pushed to the bottom */
+}
 
+.content {
+  flex: 1; /* Allows the main content to take up available space */
+  padding: 1rem;
+  background-color: var( --primary-dark-bg);
+  color: var(--primary);
+}
 /* Main content container with Sidebar and content */
 .main-content {
   display: flex;
   flex: 1; /* Take remaining space */
 }
-
+.content-container {
+  display: flex;
+  align-items: center;
+  flex: 1 1;
+  gap: 10px;
+  color: var(--primary);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  text-align: left;
+  background-color: var(--primary-dark-bg);
+}
+.sub-content {
+  display: flex;
+  flex: 1 1;
+  align-content: center;
+  align-items: baseline;
+  background-color: var(--secondary-dark-bg);
+  color: var(--primary);
+  border: 1px solid var(--border-color);
+}
 /* Sidebar styling */
 /* .sidebar {
   width: 250px;
@@ -84,20 +111,6 @@ h3 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 } */
 
-/* General App Container */
-.app {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Ensures footer is pushed to the bottom */
-}
-
-.content {
-  flex: 1; /* Allows the main content to take up available space */
-  padding: 1rem;
-  background-color: var( --primary-dark-bg);
-  color: var(--primary);
-}
 
 /* Additional Styles for Links */
 .App-link {
@@ -167,7 +180,7 @@ h3 {
   .sidebar {display: none;}
 
   .content-container{
-    margin-top: 20%;
+    margin-top: 15%;
   }
   .footer {
     width: 100%;

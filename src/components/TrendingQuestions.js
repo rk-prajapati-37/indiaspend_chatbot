@@ -5,15 +5,7 @@ import {
   FcRefresh,
   FcVoicePresentation,
   FcReading,
-  FcLeftUp2,
-  FcApproval,
-  FcPositiveDynamic,
-  FcShipped,
-  FcCloseUpMode,
-  FcDownRight,
   FcQuestions,
-  FcLeftDown2,
-  FcAbout,
 } from "react-icons/fc";
 import {
   FaCheck,
@@ -22,7 +14,10 @@ import {
   FaBullseye,
   FaExclamationCircle,
   FaLongArrowAltDown,
+  FaLongArrowAltUp,
 } from "react-icons/fa";
+import { LuRefreshCcwDot } from "react-icons/lu";
+
 import Footer from "./Footer";
 import "../styles/TrendingQuestions.css";
 
@@ -72,16 +67,31 @@ function TrendingQuestions() {
   const [history, setHistory] = useState([]);
   const [expandedAnswer, setExpandedAnswer] = useState(null);
   const lastAnswerRef = useRef(null);
+  const lastPRef = useRef(null);
 
   useEffect(() => {
-    // Scroll to the last answer when it is expanded
-    if (lastAnswerRef.current) {
-      lastAnswerRef.current.scrollIntoView({
+    // Scroll to the last <p> tag when history updates
+    if (lastPRef.current && history.length > 0) {
+      lastPRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "start",
+        block: "center",
       });
     }
-  }, [history, expandedAnswer]);
+  }, [history]);
+
+  useEffect(() => {
+    // Scroll to the last answer only when a new item is added to the history
+    if (lastAnswerRef.current && history.length > 0) {
+      const lastItem = history[0]; // The last added item in the reversed history
+      if (expandedAnswer === lastItem.answer) {
+        lastAnswerRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }
+  }, [history]);
+
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoading(true);
@@ -205,14 +215,14 @@ function TrendingQuestions() {
   };
 
   // Render sources section with metadata
-  const renderSources = () => {
-    if (sources.length === 0) {
-      return <p>No sources available.</p>;
+  const renderSources = (itemSources) => {
+    if (itemSources.length === 0) {
+      return null;
     }
 
     return (
       <ul>
-        {sources.map((source, index) => (
+        {itemSources.map((source, index) => (
           <li key={index} className="sources-tle-url">
             <div className="txt-source-url">
               <a href={source.url} target="_blank" rel="noopener noreferrer">
@@ -229,6 +239,18 @@ function TrendingQuestions() {
       </ul>
     );
   };
+
+  const answerRefs = useRef({});
+
+  useEffect(() => {
+    // Scroll to the expanded answer when it changes
+    if (expandedAnswer && answerRefs.current[expandedAnswer]) {
+      answerRefs.current[expandedAnswer].scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [expandedAnswer]);
 
   return (
     <>
@@ -307,13 +329,9 @@ function TrendingQuestions() {
                       <div className="answer-icon">
                         <FcReading />
                       </div>
-                      <p
+                      {/* <p
                         className="answer-preview"
-                        onClick={() =>
-                          setExpandedAnswer(
-                            expandedAnswer === item.answer ? null : item.answer
-                          )
-                        }
+                        ref={index === 0 ? lastPRef : null} // Ref for the last <p>
                       >
                         <ReactMarkdown>
                           {expandedAnswer === item.answer ||
@@ -324,17 +342,50 @@ function TrendingQuestions() {
                         {(expandedAnswer === item.answer ||
                           index === array.length - 1) && (
                           <div className="sources-section">
-                            <h4>Sources:</h4>
-                            {renderSources()}
+                            {renderSources(item.sources)}
+                          </div>
+                        )}
+                      </p> */}
+                      <p
+                        className="answer-preview"
+                        ref={index === 0 ? lastPRef : null}
+                      >
+                        <ReactMarkdown>
+                          {expandedAnswer === item.answer ||
+                          index === array.length - 1
+                            ? item.answer
+                            : `${item.answer.substring(0, 250)}...`}
+                        </ReactMarkdown>
+                        {(expandedAnswer === item.answer ||
+                          index === array.length - 1) && (
+                          <div className="sources-section">
+                            {renderSources(item.sources)}
                           </div>
                         )}{" "}
                         <div className="expand-container">
-                          <div className="tex-expand-rk">
-                            <div className="expad-answer-icon">
-                              <FaLongArrowAltDown size={30} />
+                          <div
+                            className="text-expand-rk"
+                            onClick={() =>
+                              setExpandedAnswer(
+                                expandedAnswer === item.answer
+                                  ? null
+                                  : item.answer
+                              )
+                            }
+                          >
+                            <div className="expand-answer-icon">
+                              {expandedAnswer === item.answer ? (
+                                <FaLongArrowAltUp size={20} />
+                              ) : (
+                                <FaLongArrowAltDown size={20} />
+                              )}
                             </div>
-                            <div className="expad-txt-rk">
-                              <span> Expand </span>
+                            <div className="expand-text-rk">
+                              <span className="expand-toggle">
+                                {expandedAnswer === item.answer
+                                  ? "Collapse"
+                                  : "Expand"}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -407,7 +458,7 @@ function TrendingQuestions() {
             <div className="refresh-section" onClick={handleRefresh}>
               <div className="ref-txt-rk"> Refresh </div>
               <div className="answer-icon refreshingrk">
-                <FcRefresh size={30} />
+                <LuRefreshCcwDot size={30} />
               </div>
             </div>
             {/* <div className="question-tt-title">
@@ -415,9 +466,9 @@ function TrendingQuestions() {
             </div> */}
           </div>
         )}
-        <div className="footer-sectionrk">
-          <Footer onSubmitQuestion={handleQuestionClick} />
-        </div>
+        {/* <div className="footer-sectionrk"> */}
+        <Footer onSubmitQuestion={handleQuestionClick} />
+        {/* </div> */}
       </main>
     </>
   );

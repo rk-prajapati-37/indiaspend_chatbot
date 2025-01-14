@@ -1,16 +1,17 @@
-.content-container {
+
+/* .content-container {
   display: flex;
   align-items: center;
-  /* flex-direction: column; */
   flex: 1 1;
   padding: 10px;
-  /* margin-top: 4%; */
+  margin-top: 20px;
   gap: 10px;
   background-color: var(--secondary-dark-bg);
   color: var(--primary);
   border: 1px solid var(--border-color);
   overflow: hidden;
-}
+  text-align: left;
+} */
 /* .content-container {
   display: flex
 ;
@@ -45,22 +46,23 @@
 
 
 .trending-questions {
-  justify-content: flex-start;
-  width: 95%;
+  justify-content: space-between;
   margin: 0 auto;
   display: flex;
   align-items: center;
   flex-direction: column;
   flex: 1 1;
-  padding: 10px;
-  /* margin-top: 4%; */
+  margin: 5.5% 1% 1%;
   gap: 10px;
-  background-color: var(--secondary-dark-bg);
   color: var(--primary);
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-  max-height: 500px;
-  overflow: auto;
+  background-color: var(--secondary-dark-bg);
+  border-radius: 20px;
+  max-height: calc(100vh - 100px);
+  min-height: calc(100vh - 100px);
+  padding: 15px;
+  width: 100%;
+  overflow: hidden;
 }
 
 h2 {
@@ -91,10 +93,10 @@ h2 {
   display: flex;
   background-color: var(--primary-dark-bg);
   color: var(--primary);
-  padding: 15px;
+  padding: 0px 10px;
   margin: 0;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px var(--border-color);
   transition: all 0.3s ease;
   align-items: center;
@@ -196,11 +198,11 @@ h2 {
 .history-section {
   background-color: var(--secondary-dark-bg);
   color: var(--primary);
-  margin-top: 20px;
+  /* margin-top: 20px; */
   cursor: pointer;
   padding: 10px 5px;
   border-radius: 10px;
-  max-height: 300px;
+  max-height: 600px;
   overflow: auto;
 }
 
@@ -240,7 +242,7 @@ h2 {
 }
 
 .history-list {
-  max-height: 350px;
+  max-height: 650px;
   /* Set max-height for scrolling */
   overflow-y: auto;
   /* Enable scrolling */
@@ -273,7 +275,7 @@ h2 {
 .question-content,
 .answer-content {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   text-align: left;
   align-items: center;
 }
@@ -283,10 +285,13 @@ h2 {
   padding: 10px;
   background-color: var(--primary-dark-bg);
   border-radius: 10px;
+  max-height: 400px;
+  height: auto;
 }
 
 li.history-card .answer-content p.answer-preview p {
-  margin: 0px;
+  margin: 5px 0;
+  overflow: auto;
 }
 
 .answer-content ul.answer-points {
@@ -335,14 +340,13 @@ li.history-card .answer-content p.answer-preview p {
 .sources-section li.sources-tle-url {
   display: flex;
   gap: 10px;
-  margin-bottom: 5px;
-  padding: 5px 5px;
+  margin: 5px;
+  padding: 5px 10px;
   border-radius: 5px;
   background-color: var(--secondary-dark-bg);
   color: var(--primary);
-  box-shadow: 0 4px 8px var(--border-color);
+  box-shadow: 0px 1px 2px 2px var(--border-color);
 }
-
 .question-content .question-icon,
 .answer-icon {
   font-size: 3rem;
@@ -352,11 +356,18 @@ li.history-card .answer-content p.answer-preview p {
   text-transform: capitalize;
 }
 
-.question-text,
-.answer-preview {
-  margin-bottom: 10px;
-  text-align: left;
+.answer-content p.answer-preview {
+  margin: 5px 0;
+  overflow: auto;
+  height: auto;
+  max-height: 400px;
 }
+.question-content  h3.question-text {
+  margin-top: 0;
+}
+/* p.answer-preview {
+  margin: 5px 0;
+} */
 
 /* .answer-preview {
   cursor: pointer;
@@ -380,20 +391,20 @@ li.history-card .answer-content p.answer-preview p {
   justify-items: end;
 }
 
-.tex-expand-rk {
+.text-expand-rk {
   display: flex;
-  background-color: var(--active);
-  color: var(--black);
   padding: 3px 6px;
-  margin-top: -20px;
+  margin-top: 5px;
   cursor: pointer;
   border-radius: 5px;
   transition: all 0.3s ease;
   align-items: center;
   gap: 0px;
+  background-color: var(--secondary-dark-bg);
+  color: var(--primary);
 }
 
-.tex-expand-rk .expad-answer-icon svg {
+.text-expand-rk .expad-answer-icon svg {
   height: 20px;
   width: 15px;
   padding-top: 5px;
@@ -525,20 +536,20 @@ li.history-card .answer-content p.answer-preview p {
 
 .sources-section li.sources-tle-url .txt-source-url a {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   text-decoration: none;
 }
 
 .source-image {
-  width: 100px;
-  height: 60px;
+  width: 90px;
+  height: 55px;
   object-fit: cover;
   margin-right: 10px;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 .txt-source-url span {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--primary);
 }

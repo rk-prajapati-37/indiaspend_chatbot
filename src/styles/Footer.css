@@ -27,10 +27,12 @@
 }
 
 .footer-content {
-  display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: flex-end;
 }
 
 .footer h3 {
@@ -39,37 +41,36 @@
 }
 
 .input-container {
-  display: flex; /* Align items horizontally */
-  justify-content: center; /* Center the elements */
-  align-items: center; /* Vertically center the input and button */
-  gap: 10px; /* Add space between the input and button */
-  width: 100%;
-  margin: 20px;
+  margin: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+  position: relative;
+  width: 70vw;
 }
 
 
 .footer .input-container input {
-  flex-grow: 1;
   width: 100%;
-  max-width: 600px;
   padding: 15px 25px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  margin-right: 10px;
+  border-radius: 20px;
+  font-size: 20px;
+  position: relative;
+  flex: 1;
+  max-width: 700px;
 }
 
 .footer .input-container button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--secondary-dark-bg);
+  color: var(--primary);
   border: none;
   border-radius: 4px;
-  padding: 15px 20px;
   cursor: pointer;
-  font-size: 16px;
 }
 
 .footer .input-container button:hover {

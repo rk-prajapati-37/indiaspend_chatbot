@@ -57,7 +57,7 @@ function Sidebar() {
                 <ul>
                   {previousQuestions.map((item, index) => (
                     <li key={index}>
-                      <strong>Q:</strong> {item.question}
+                      <strong>Q:</strong> <p>{item.question}</p>
                     </li>
                   ))}
                 </ul>
