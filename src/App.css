@@ -227,7 +227,7 @@ background-color: var(--hover);
     border: 1px solid var(--secondary-dark-bg);
     max-height: calc(100vh - 50px);
     max-width: calc(100vw - 20px);
-    min-height: calc(100vh - 20px);
+    /* min-height: calc(100vh - 20px); */
     min-width: calc(100vw - 50px);
     width: 100%;
 }
