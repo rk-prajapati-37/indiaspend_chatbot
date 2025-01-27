@@ -1,69 +1,37 @@
 /* Sidebar styles */
 .sidebar {
   width: 200px;
-  /* box-shadow: 0 4px 8px var(--border-color); */
-  padding: 20px 10px;
-  background-color: var(--primary-dark-bg);
+  padding: 5px 10px;
   color: var(--primary);
 }
 
 .sidebar.collapsed {
   width: 60px; /* Adjusted collapsed width */
-  padding-top: 4.5%;
+  /* padding-top: 4.5%; */
 }
-
-.toggle-button {
-  text-align: center;
-  width: 100%;
-  border: none;
-  display: flex;
-  padding: 10px;
-  margin: 10px 0;
-  margin-top: 10%;
-  cursor: pointer;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  align-items: center;
-  gap: 10px;
-  font-size: 2rem;
-  color: var(--primary);
-  background-color: var(--secondary-dark-bg);
-}
-
 
 .sidebar-content {
-  padding-top: 24%;
   text-align: left;
   max-height: calc(100vh - 100px);
-  min-height: calc(100vh - 100px);;
-}
-.sidebar-content .sidebar-text {
-  font-size: 1rem;
+  min-height: calc(100vh - 100px);
 }
 
-.faq-button, .new-thread-button {
+.toggle-button, .faq-button, .new-thread-button {
   width: 100%;
   border: none;
   color: var(--primary);
-  background-color: var(--secondary-dark-bg);
-  font-size: 1rem;
+  background: var(--primary-dark-bg);
   display: flex;
-  padding: 10px;
-  margin: 10px 0;
   cursor: pointer;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   align-items: center;
   gap: 10px;
 }
-button.faq-button, .new-thread-button {
-  font-size: 2.2rem;
-}
+
+.toggle-button:hover,
 .faq-button:hover,
 .new-thread-button:hover {
-  background-color: #0056b3;
+ color: var(--hover);
 }
 
 .previous-questions {
@@ -71,31 +39,28 @@ button.faq-button, .new-thread-button {
 }
 
 .previous-questions h3 {
-  font-size: 16px;
   margin-bottom: 10px;
 }
 
-.previous-questions p {
-  font-size: 14px;
+.previous-questions h4 {
   color: var(--primary);
+  line-height: 0.9;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 5px 0;
 }
 .previous-questions ul {
   padding: 0;
 }
 .previous-questions ul li {
-  display: flex;
-  padding: 5px;
-  margin: 5px auto;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: all 0.3s ease;
   align-items: center;
+  cursor: pointer;
+  display: flex;
   gap: 5px;
-  color: var(--primary);
-  background-color: var(--secondary-dark-bg);
+  transition: all .3s ease;
+  border-bottom: 1px solid var(--border-color);
+  padding: 5px;
 }
 
 /* Mobile responsiveness */
@@ -117,25 +82,16 @@ button.faq-button, .new-thread-button {
   .sidebar.collapsed {
     width: 40px; /* Even smaller collapsed sidebar */
   }
-
-  .faq-button,
-  .new-thread-button {
-    font-size: 14px; /* Smaller text on smaller screens */
-  }
 }
 
 /* Icon-only state for collapsed sidebar */
+.sidebar.collapsed .toggle-button, 
 .sidebar.collapsed .faq-button,
 .sidebar.collapsed .new-thread-button {
   padding: 10px;
-  font-size: 20px; /* Icon size */
 }
 
 .sidebar.collapsed .previous-questions h3,
 .sidebar.collapsed .previous-questions p {
   display: none; /* Hide text when collapsed */
-}
-
-.sidebar.collapsed .toggle-button {
-  font-size: 18px; /* Increase button size when collapsed */
 }

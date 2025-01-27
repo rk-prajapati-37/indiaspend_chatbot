@@ -1,21 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
-import { AiFillAccountBook } from "react-icons/ai";
+import { FcVoicePresentation, FcReading, FcQuestions } from "react-icons/fc";
 import {
-  FcRefresh,
-  FcVoicePresentation,
-  FcReading,
-  FcQuestions,
-} from "react-icons/fc";
-import {
-  FaCheck,
-  FaReply,
-  FaThumbsUp,
-  FaBullseye,
-  FaExclamationCircle,
-  FaLongArrowAltDown,
-  FaLongArrowAltUp,
-} from "react-icons/fa";
+  MdPsychologyAlt,
+  MdOutlineAutoStories,
+  MdOutlineSpeakerNotes,
+} from "react-icons/md";
+import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
 import { LuRefreshCcwDot } from "react-icons/lu";
 
 import Footer from "./Footer";
@@ -46,15 +37,7 @@ const getRandomIcon = (icons) => {
   return icons[randomIndex];
 };
 
-const questionIcons = [<FcQuestions size={40} />];
-
-const answerIcons = [
-  <FaCheck size={40} />,
-  <FaReply size={40} />,
-  <FaThumbsUp size={40} />,
-  <FaBullseye size={40} />,
-  <FaExclamationCircle size={40} />,
-];
+const questionIcons = [<MdOutlineSpeakerNotes />];
 
 function TrendingQuestions() {
   const [questions, setQuestions] = useState([]);
@@ -68,30 +51,27 @@ function TrendingQuestions() {
   const [expandedAnswer, setExpandedAnswer] = useState(null);
   const lastAnswerRef = useRef(null);
   const lastPRef = useRef(null);
+  const sourcesRef = useRef(null); // Create a reference for the sources section
 
   useEffect(() => {
-    // Scroll to the last <p> tag when history updates
-    if (lastPRef.current && history.length > 0) {
-      lastPRef.current.scrollIntoView({
+    // Scroll to the last appended answer when history updates
+    if (lastAnswerRef.current) {
+      lastAnswerRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "start",
       });
     }
-  }, [history]);
+  }, [history]); // Trigger effect when `history` changes
 
   useEffect(() => {
-    // Scroll to the last answer only when a new item is added to the history
-    if (lastAnswerRef.current && history.length > 0) {
-      const lastItem = history[0]; // The last added item in the reversed history
-      if (expandedAnswer === lastItem.answer) {
-        lastAnswerRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
+    // Scroll to the sources section when sources are updated
+    if (sources.length > 0 && sourcesRef.current) {
+      sourcesRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
-  }, [history]);
-
+  }, [sources]); // Trigger effect when `sources` changes
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoading(true);
@@ -124,49 +104,124 @@ function TrendingQuestions() {
   const handleQuestionClick = async (question) => {
     setSelectedQuestion(question);
     setLoading(true);
+    setAnswer(""); // Clear previous answer
+    setSources([]); // Clear previous sources
+    setError(null);
+    let fetchedAnswer = ""; // Initialize useRef for storing answer data
+    let isFirstMessage = true; // Flag to check if it's the first message
+    let fetchedSources = [];
+    let articleInfo;
 
     try {
-      const response = await fetch(
-        `http://u4sg8g4ks4k0k8g00osgwos0.178.16.139.168.sslip.io/query?question=${encodeURIComponent(
+      const eventSource = new EventSource(
+        `https://i4g0k440wkc4o4skgocgwg88.vps.boomlive.in/stream_query?question=${encodeURIComponent(
           question
-        )}&thread_id=default`,
-        { method: "GET", headers: { "Content-Type": "application/json" } }
+        )}&thread_id=default`
       );
-      if (!response.ok) {
-        throw new Error("Failed to get answer");
-      }
 
-      const data = await response.json();
-      const fetchedAnswer = data.response || "No answer found.";
-      const fetchedSources = data.sources || [];
+      eventSource.onmessage = async (event) => {
+        // Ignore unwanted initial messages
+        if (
+          isFirstMessage &&
+          (event.data === "Yes" ||
+            event.data === "No" ||
+            event.data === "." ||
+            event.data === "")
+        ) {
+          return;
+        }
 
-      // Fetch metadata for the sources
-      const metadataResponse = await fetchMetadataFromApi(fetchedSources);
-      const sourcesWithMetadata =
-        metadataResponse?.final_response.map((meta) => ({
-          url: meta.post_url,
-          image: meta.preview_image_url,
-          title: meta.title,
-        })) || [];
+        isFirstMessage = false; // Mark first message as processed
 
-      setAnswer(fetchedAnswer);
-      setSources(sourcesWithMetadata);
+        // Handle the `[end]` signal
+        if (event.data === "[end]") {
+          // console.log("End of stream received.");
+          eventSource.close(); // Close the stream
+          // console.log(fetchedAnswer);
+          //
+          if (fetchedAnswer.includes("Sources:")) {
+            // Find the index of "Sources:"
+            const sourcesIndex = fetchedAnswer.indexOf("Sources:");
 
-      const updatedHistory = [
-        {
-          question,
-          answer: fetchedAnswer,
-          sources: sourcesWithMetadata,
-          timestamp: new Date().toISOString(),
-        },
-        ...history,
-      ];
-      setHistory(updatedHistory);
+            // Trim the fetchedAnswer and save the sources part
+            const sourcesData = fetchedAnswer
+              .slice(sourcesIndex + "Sources:".length)
+              .trim();
+            // console.log("souresData", sourcesData);
 
-      localStorage.setItem("questionHistory", JSON.stringify(updatedHistory));
-    } catch {
-      setAnswer("Sorry, there was an issue fetching the answer.");
-    } finally {
+            // Regular expression to find URLs (assuming sources are URLs)
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+            // Extract valid URLs using regex
+            fetchedSources = sourcesData.match(urlRegex);
+            // console.log("fetchedSources", fetchedSources);
+
+            // Remove the sources part from fetchedAnswer
+            fetchedAnswer = fetchedAnswer.slice(0, sourcesIndex).trim();
+            // console.log(fetchedAnswer);
+          }
+          return;
+        }
+
+        try {
+          const data = JSON.parse(event.data); // Parse JSON data if it's structured
+          if (data.sources) {
+            // console.log("Sources received:", data.sources);
+            fetchedSources = data.sources;
+            articleInfo = await fetchMetadataFromApi(fetchedSources);
+            // console.log(articleInfo);
+            setSources(data.sources); // Update sources state
+          } else {
+            let fetchedEventData = event.data.replace(/\\n/g, "  \n"); // Removes literal '\n'
+
+            fetchedAnswer += fetchedEventData; // Append chunk to the answer
+          }
+        } catch (err) {
+          // Count the number of newlines and log it
+
+          let fetchedEventData = event.data.replace(/\\n/g, "  \n"); // Removes literal '\n'
+          fetchedAnswer += fetchedEventData; // Assume plain text if parsing fails
+        }
+
+        setAnswer(fetchedAnswer); // Update the answer state
+
+        const updatedHistory = [
+          {
+            question,
+            answer: fetchedAnswer,
+            sources: articleInfo,
+            timestamp: new Date().toISOString(),
+          },
+          ...history,
+        ];
+        setHistory(updatedHistory);
+
+        localStorage.setItem("questionHistory", JSON.stringify(updatedHistory));
+        setLoading(false);
+      };
+
+      eventSource.onerror = () => {
+        setError("Error streaming the answer");
+        eventSource.close();
+      };
+
+      eventSource.onclose = () => {
+        const updatedHistory = [
+          {
+            question,
+            answer: fetchedAnswer,
+            sources: [], // No sources available in this case
+            timestamp: new Date().toISOString(),
+          },
+          ...history,
+        ];
+        setHistory(updatedHistory);
+
+        localStorage.setItem("questionHistory", JSON.stringify(updatedHistory));
+        setLoading(false);
+      };
+    } catch (error) {
+      setError("Failed to stream the answer");
       setLoading(false);
     }
   };
@@ -210,32 +265,68 @@ function TrendingQuestions() {
     fetchNewQuestions();
   };
 
-  const renderAnswerPoints = () => {
-    return <ReactMarkdown>{answer}</ReactMarkdown>;
+  const formatMarkdownToJSX = (markdownText) => {
+    // Replace single line breaks with two spaces (soft break) to trigger new lines
+    let formattedText = markdownText.replace(/\n/g, "  \n");
+
+    // Ensure multiple newlines between paragraphs are maintained for hard breaks
+    formattedText = formattedText.replace(/\n\s*\n/g, "\n\n");
+
+    // Optionally, handle other markdown edge cases like lists or headings
+    // You can add further processing here for other markdown elements if needed
+
+    return formattedText;
   };
 
   // Render sources section with metadata
   const renderSources = (itemSources) => {
-    if (itemSources.length === 0) {
-      return null;
+    if (
+      !itemSources ||
+      !itemSources.final_response ||
+      itemSources.final_response.length === 0
+    ) {
+      return null; // If there are no sources, return null or handle accordingly
     }
 
+    console.log(itemSources); // For debugging, ensure the structure is correct
+
+    // Remove duplicates based on the post_url
+    const uniqueSources = itemSources.final_response.filter(
+      (source, index, self) =>
+        index === self.findIndex((s) => s.post_url === source.post_url)
+    );
+
     return (
-      <ul>
-        {itemSources.map((source, index) => (
-          <li key={index} className="sources-tle-url">
-            <div className="txt-source-url">
-              <a href={source.url} target="_blank" rel="noopener noreferrer">
-                <img
-                  src={source.image}
-                  alt={source.title}
-                  className="source-image"
-                />
-                <span>{source.title || source.url}</span>
-              </a>
+      <ul ref={sourcesRef}>
+        {loading ? (
+          <div className="loading">
+            <div className="skeleton-card">
+              <div className="skeleton-loader"></div>
+              <div className="skeleton-item"></div>
+              <div className="skeleton-item"></div>
+              <div className="skeleton-item"></div>
             </div>
-          </li>
-        ))}
+          </div>
+        ) : (
+          uniqueSources.map((source, index) => (
+            <li key={index} className="sources-tle-url">
+              <div className="txt-source-url">
+                <a
+                  href={source.post_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={source.preview_image_url}
+                    alt={source.title}
+                    className="source-image"
+                  />
+                  <span>{source.title || source.post_url}</span>
+                </a>
+              </div>
+            </li>
+          ))
+        )}
       </ul>
     );
   };
@@ -255,55 +346,6 @@ function TrendingQuestions() {
   return (
     <>
       <main className="trending-questions">
-        {/* {history.length > 0 && (
-          <div className="history-section">
-            <div className="history-list">
-              <ul className="history-items">
-                {[...history].reverse().map((item, index) => (
-                  <li
-                    key={index}
-                    className={`history-card ${
-                      expandedAnswer === item.answer ? "expanded" : ""
-                    }`}
-                  >
-                    <div className="question-content">
-                      <div className="question-icon">
-                        <FcVoicePresentation />
-                      </div>
-                      <h3 className="question-text">{item.question}</h3>
-                    </div>
-                    <div className="answer-content">
-                      <div className="answer-icon">
-                        <FcReading />
-                      </div>
-                      <p
-                        className="answer-preview"
-                        onClick={() =>
-                          setExpandedAnswer(
-                            expandedAnswer === item.answer ? null : item.answer
-                          )
-                        }
-                      >
-                        <ReactMarkdown>
-                          {expandedAnswer === item.answer
-                            ? item.answer
-                            : `${item.answer.substring(0, 250)}...`}
-                        </ReactMarkdown>
-
-                        {expandedAnswer === item.answer && (
-                          <div className="sources-section">
-                            <h4>Sources:</h4>
-                            {renderSources()}
-                          </div>
-                        )}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )} */}
         {history.length > 0 && (
           <div className="history-section">
             <div className="history-list">
@@ -321,22 +363,22 @@ function TrendingQuestions() {
                   >
                     <div className="question-content">
                       <div className="question-icon">
-                        <FcVoicePresentation />
+                        <MdPsychologyAlt />
                       </div>
-                      <h3 className="question-text">{item.question}</h3>
+                      <h2 className="question-text">{item.question}</h2>
                     </div>
                     <div className="answer-content">
                       <div className="answer-icon">
-                        <FcReading />
+                        <MdOutlineAutoStories />
                       </div>
-                      {/* <p
+                      <p
                         className="answer-preview"
-                        ref={index === 0 ? lastPRef : null} // Ref for the last <p>
+                        ref={index === 0 ? lastPRef : null}
                       >
                         <ReactMarkdown>
                           {expandedAnswer === item.answer ||
                           index === array.length - 1
-                            ? item.answer
+                            ? formatMarkdownToJSX(item.answer)
                             : `${item.answer.substring(0, 250)}...`}
                         </ReactMarkdown>
                         {(expandedAnswer === item.answer ||
@@ -345,23 +387,9 @@ function TrendingQuestions() {
                             {renderSources(item.sources)}
                           </div>
                         )}
-                      </p> */}
-                      <p
-                        className="answer-preview"
-                        ref={index === 0 ? lastPRef : null}
-                      >
-                        <ReactMarkdown>
-                          {expandedAnswer === item.answer ||
-                          index === array.length - 1
-                            ? item.answer
-                            : `${item.answer.substring(0, 250)}...`}
-                        </ReactMarkdown>
-                        {(expandedAnswer === item.answer ||
-                          index === array.length - 1) && (
-                          <div className="sources-section">
-                            {renderSources(item.sources)}
-                          </div>
-                        )}{" "}
+                      </p>
+                      {/* Hide the expand/collapse button for the last item */}
+                      {index !== array.length - 1 && (
                         <div className="expand-container">
                           <div
                             className="text-expand-rk"
@@ -389,7 +417,7 @@ function TrendingQuestions() {
                             </div>
                           </div>
                         </div>
-                      </p>
+                      )}
                     </div>
                   </li>
                 ))}
@@ -412,30 +440,9 @@ function TrendingQuestions() {
         ) : selectedQuestion ? (
           <div></div>
         ) : (
-          // <div className="question-full-answer">
-          //   <div className="question-content">
-          //     <div className="question-icon">
-          //       <FcVoicePresentation />
-          //     </div>
-          //     <h3 className="question-text">{selectedQuestion}</h3>
-          //   </div>
-          //   <div className="answer-content">
-          //     <div className="answer-icon">
-          //       <FcReading />
-          //     </div>
-          //     <p className="answer-full">
-          //       <ReactMarkdown>{answer}</ReactMarkdown>
-          //       <div className="sources-section">
-          //         <h4>Sources:</h4>
-          //         {renderSources()}
-          //       </div>
-          //     </p>
-          //   </div>
-          // </div>
-
           <div className="questions-grid">
             <div className="tren-q-tit">
-              <h2>Trending Questions</h2>
+              <h1>Trending Questions</h1>
             </div>
             <div></div>
             {Array.isArray(questions) && questions.length > 0 ? (
@@ -448,7 +455,7 @@ function TrendingQuestions() {
                   <div className="question-icon">
                     {getRandomIcon(questionIcons)}
                   </div>
-                  <h3 className="question-text">{q}</h3>
+                  <h2 className="question-text">{q}</h2>
                 </div>
               ))
             ) : (
@@ -457,8 +464,8 @@ function TrendingQuestions() {
             <div></div>
             <div className="refresh-section" onClick={handleRefresh}>
               <div className="ref-txt-rk"> Refresh </div>
-              <div className="answer-icon refreshingrk">
-                <LuRefreshCcwDot size={30} />
+              <div className=" refreshingrk">
+                <LuRefreshCcwDot size={25} />
               </div>
             </div>
             {/* <div className="question-tt-title">
@@ -467,7 +474,7 @@ function TrendingQuestions() {
           </div>
         )}
         {/* <div className="footer-sectionrk"> */}
-        <Footer onSubmitQuestion={handleQuestionClick} />
+        <Footer onSubmitQuestion={handleQuestionClick} onLoading={loading} />
         {/* </div> */}
       </main>
     </>

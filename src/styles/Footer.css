@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  /* min-height: 50vh; */
   justify-content: flex-end;
   background-color: var(--primary-dark-bg);
   color: var(--primary);
@@ -21,7 +20,7 @@
   background-color: var(--white);
   color: var(--black);
   bottom: 0;
-  width: 60vw;
+  width: 65vw;
   font-family: Arial, sans-serif; /* Added a default font-family for better readability */
   box-shadow: 0 -2px 5px var(--border-color); /* Subtle shadow to separate footer from content */
 }
@@ -36,7 +35,6 @@
 }
 
 .footer h3 {
-  font-size: 1.5rem;
   margin-bottom: 20px;
 }
 
@@ -47,42 +45,45 @@
   justify-content: center;
   padding-top: 10px;
   position: relative;
-  width: 70vw;
+  width: 60vw;
+
 }
 
-
 .footer .input-container input {
-  width: 100%;
+  color: var(--secondary);
+  background-color: var(--primary-dark-bg);
+  box-shadow: -5px 0px 5px var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px 0px 0px 5px;
+  flex: 1 1;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.1;
   padding: 15px 25px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  font-size: 20px;
   position: relative;
-  flex: 1;
-  max-width: 700px;
+  width: 100%;
+  outline: none;
 }
 
 .footer .input-container button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--secondary-dark-bg);
-  color: var(--primary);
-  border: none;
-  border-radius: 4px;
+  background-color: var(--primary-dark-bg);
+  color: var(--secondary);
   cursor: pointer;
+  padding: 9px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 0px 5px 5px 0px;
+  box-shadow: 0 -2px 5px var(--border-color);
 }
 
 .footer .input-container button:hover {
-  background-color: #0056b3;
-}
-.footer .input-container svg {
-  font-size: 3.2rem; /* Adjust the size of the icon */
+  color: var(--primary);
 }
 
 .footer .answer {
   margin-top: 20px;
-  font-size: 1.2rem;
   background-color: var(--bg-color);
   color: var(--text-color);
   padding: 10px;
@@ -94,14 +95,6 @@
 
 .footer p {
   margin: 0;
-  font-size: 0.9rem;
   line-height: 1.4;
 }
 
-/* Responsive Design for Footer */
-@media (max-width: 768px) {
-  .footer {
-    font-size: 0.8rem; /* Slightly smaller font size for smaller screens */
-    padding: 0.8rem;
-  }
-}

@@ -33,15 +33,13 @@
 
 .card-title {
   margin: 0.5rem 0;
-  font-size: 1.2rem;
-  color: #333;
+  color: var(--side-nav-bg);
   font-weight: bold;
 }
 
 .card-description {
   margin: 0.5rem 0;
-  color: #555;
-  font-size: 0.9rem;
+  color: var( --badge-bg);
   line-height: 1.4;
 }
 

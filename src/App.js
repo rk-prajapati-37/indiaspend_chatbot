@@ -25,6 +25,10 @@ function App() {
           {/* </div> */}
         </div>
         {/* <Footer /> */}
+        {/* <p>
+          &copy; {new Date().getFullYear()} ask.indiaspend.com Online. All
+          rights reserved.
+        </p> */}
       </div>
     </Router>
   );

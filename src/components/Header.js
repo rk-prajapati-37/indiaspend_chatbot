@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "../styles/Header.css"; // Ensure the case matches the actual file name
 import logo from "../assets/indiaspend_logo.svg";
 // import apurvaLogo from "../assets/apurva-logo.png";
-import { MdLightMode, MdOutlineDarkMode } from "react-icons/md";
-import { FaRegUserCircle } from "react-icons/fa";
+import { MdLightMode, MdOutlineDarkMode, MdPerson } from "react-icons/md";
+// import { FaRegUserCircle } from "react-icons/fa";
 
 const Header = () => {
   const [theme, setTheme] = useState("light");
@@ -45,7 +45,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="logo-container">
+      <div className="logo-container" onClick={() => window.location.reload()}>
         <img src={logo} alt="IndiaSpend Logo" className="logo" />
       </div>
 
@@ -60,7 +60,7 @@ const Header = () => {
         </button>
 
         <div className="user-section">
-          <FaRegUserCircle
+          <MdPerson
             className="user-icon"
             onClick={toggleDropdown}
             aria-label="User Menu"

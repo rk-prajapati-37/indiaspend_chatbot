@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { FcRight, FcLeft, FcCollaboration, FcNews } from "react-icons/fc";
+// import { FcRight, FcLeft, FcNews } from "react-icons/fc";
+import {
+  MdLogout,
+  MdLogin,
+  MdSwitchAccount,
+  MdReceiptLong,
+} from "react-icons/md";
 import "../styles/Sidebar.css";
 
 function Sidebar() {
@@ -22,23 +28,29 @@ function Sidebar() {
       <div className="sidebar-content">
         <button className="toggle-button sidebar-icon" onClick={toggleSidebar}>
           <div className="sidebar-icon">
-            {isCollapsed ? <FcRight /> : <FcLeft />}
+            {isCollapsed ? <MdLogout /> : <MdLogin />}
           </div>
-          {!isCollapsed && <div className="sidebar-text">Dashboard</div>}
+          {!isCollapsed && (
+            <div className="sidebar-text">
+              <h4>Dashboard</h4>
+            </div>
+          )}
         </button>
         {!isCollapsed && (
           <>
             <button
               className="faq-button"
               onClick={() =>
-                // window.open("https://www.indiaspend.com/contact-us", "_blank")
-                window.open("https://www.indiaspend.com/contact-us")
+                // window.open("https://www.indiaspend.com/about-us", "_blank")
+                window.open("https://www.indiaspend.com/about-us")
               }
             >
               <div className="sidebar-icon">
-                <FcCollaboration />
+                <MdSwitchAccount />
               </div>
-              <div className="sidebar-text">FAQ</div>
+              <div className="sidebar-text">
+                <h4>About </h4>
+              </div>
             </button>
 
             <button
@@ -46,23 +58,25 @@ function Sidebar() {
               onClick={() => window.location.reload()} // Reload the page
             >
               <div className="sidebar-icon">
-                <FcNews />
+                <MdReceiptLong />
               </div>
-              <div className="sidebar-text">Start new thread</div>
+              <div className="sidebar-text">
+                <h4>Start new thread</h4>
+              </div>
             </button>
 
             <div className="previous-questions">
-              <h3>Previous 7 Days</h3>
+              <h4>Previous 7 Days</h4>
               {previousQuestions.length > 0 ? (
                 <ul>
                   {previousQuestions.map((item, index) => (
                     <li key={index}>
-                      <strong>Q:</strong> <p>{item.question}</p>
+                      <strong>Q:</strong> <h4>{item.question}</h4>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p>No previous questions available</p>
+                <h5>No previous questions available</h5>
               )}
             </div>
           </>
@@ -72,18 +86,18 @@ function Sidebar() {
             <button
               className="faq-button"
               onClick={() =>
-                // window.open("https://www.indiaspend.com/contact-us", "_blank")
-                window.open("https://www.indiaspend.com/contact-us")
+                // window.open("https://www.indiaspend.com/about-us", "_blank")
+                window.open("https://www.indiaspend.com/about-us")
               }
             >
               <div className="sidebar-icon">
-                <FcCollaboration />
+                <MdSwitchAccount />
               </div>
             </button>
 
             <button className="new-thread-button">
               <div className="sidebar-icon">
-                <FcNews />
+                <MdReceiptLong />
               </div>
             </button>
           </>
