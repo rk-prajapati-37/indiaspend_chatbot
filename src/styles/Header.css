@@ -1,51 +1,57 @@
 /* Dark and Light Theme Variables */
 :root {
-  --white: #000;
-  --black: #fff;
-  --fontcolor: #000;
-  --primary: #0d2429;
-  --secondary: #666666;
-  --secondary-dark-bg: #f3f3ee;
-  --primary-dark-bg: #fcfcf9;
+
+  --white: #303030;
+  --black: #f9f9f9;
+  --primary: #fff;
+  --primary-color: #003366;
+  --primary-dark-bg: #fff ;
+  --text-color: #333333;
+  --copy-right:rgb(31 41 55);
+
   --active: #2673b0;
-  --badge-bg: #e0e0e0;
-  --header-section-acc: #e0e0e0;
-  --side-nav-bg: #f9f9f9;
-  --svg-dark-grey-filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(28%) contrast(100%);
-  --svg-green-filter: brightness(0) saturate(100%) invert(41%) sepia(23%) saturate(641%) hue-rotate(94deg) brightness(96%) contrast(84%);
-  --svg-lighner: brightness(160%);
-  --border-color: #d9d9d0;
-  --border: 2px;
   --hover: #2673b0;
-  --font-weight: 400;
-  --invert-filter: invert(100%);
-  --green-text: #DF373B;
-  --tool-tip: #f3f3ee;
+
+
+  --badge-bg: #e0e0e0;
+  --border-color: #e3e3e3;
+
+
+
+  --secondary-dark-bg: #f3f3ee;
+  --secondary-color: #FFD700;
+  --background-color: #F5F5F5;
+
+
+
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
 }
 
 [data-theme="dark"] {
-  --white: #fff;
-  --black: #000;
-  --fontcolor: #fff;
-  --primary: #d9d9d9;
+
+  --white: #f9f9f9;
+  --black: #303030;
+  --primary: #fff;
+  --primary-color: #212121;
+  --primary-dark-bg: #212121;
+  --text-color: #ffffff;
+  --copy-right:rgb(33 33 33);
+
+  --active: #2673b0;
+  --hover: #337ab7;
+
+
   --secondary: #919191;
   --secondary-dark-bg: #3f3e3e;
-  --primary-dark-bg: #252525;
-  --active: #2673b0;
-  --badge-bg: #333232;
-  --header-section-acc: #333232;
-  --side-nav-bg: #181818;
-  --svg-dark-grey-filter: none;
-  --svg-green-filter: none;
-  --svg-lighner: none;
-  --hover: #337ab7;
-  --font-weight: 300;
-  --border: 1px;
-  --border-color: var(--secondary-dark-bg);
-  --invert-filter: none;
-  --green-text: #73c1b9;
-  --tool-tip: #3f3e3e;
+ 
 
+  --border-color: #1f1f1f;
+  --tw-shadow: 0 9px 9px 0px rgba(255, 255, 255, 0.01), 0 2px 5px 0px rgba(255, 255, 255, 0.06);
+
+  --background-color: #1a1a1a;
+
+  
 }
 
 
@@ -54,19 +60,19 @@
 
 /* General Header Styles */
 .header {
-  padding: 15px 20px 0px 20px;
+  padding: 1% 3% 1% 1%;
   background-color: var(--primary-dark-bg);
   color: var(--primary);
   position: fixed;
-  max-width: calc(100vw - 40px);
-  min-width: calc(100vw - 40px);
+  /* max-width: calc(100vw - 40px);
+  min-width: calc(100vw - 50px); */
   display: flex;
   align-items: center;
   width: 100%;
   margin: 0 auto;
   justify-content: space-between;
   z-index: 9;
-  /* box-shadow: 0 4px 8px var(--border-color); */
+  box-shadow: 0 4px 8px var(--tw-shadow);
 }
 
 /* Left Section (Logo) */
@@ -84,24 +90,23 @@
 .right-section {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 0px;
 }
 
-.apurva-logo {
+/* .apurva-logo {
   height: 30px;
   width: auto;
-}
+} */
 
 /* Theme Toggle Button */
 .theme-toggle {
   display: flex;
   background: none;
-  border: 3px solid var(--primary-dark-bg);
-  border-radius: 15%;
+  border: none;
   margin: auto;
   cursor: pointer;
-  background-color: var(--primary-dark-bg);
-  color: var(--primary);
+  /* background-color: var(--primary); */
+  color: var(--white);
   align-content: center;
   justify-content: center;
 }
@@ -121,7 +126,7 @@
   background-color: var( --primary-dark-bg);
   color: var(--primary);
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 8px var(--border-color);
+  box-shadow: 0 4px 8px var(--tw-shadow);
   padding: 20px;
   border-radius: 8px;
   z-index: 10;
@@ -201,6 +206,74 @@
   justify-content: center;
   gap: 1rem;
 }
+
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--white);
+  z-index: 999;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background: var(--secondary-dark-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  padding: 10px;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.mobile-menu.open {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+  color: var(--white);
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+.mobile-menu a:hover {
+  background: var(--secondary-dark-bg);
+  border-radius: 5px;
+}
+
+/* Responsive: Show Mobile Menu in Small Screens */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block; /* Show the toggle button */
+  }
+  .header{padding: 2% 3% 2% 3%;}
+}
+
+
+
+
+
+
+
+
+
 
 /* Responsiveness */
 @media (max-width: 768px) {

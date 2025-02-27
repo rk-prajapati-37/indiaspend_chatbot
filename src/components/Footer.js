@@ -30,21 +30,31 @@ const Footer = ({ onSubmitQuestion, onLoading }) => {
   return (
     <footer className="footer">
       <div className="footer-content">
+        <div>
+          <h2>Got a Question? Get Expert Answers!</h2>
+          <p>
+            Ask a data-driven question, and our experts will get back to you.
+          </p>
+        </div>
+
         <div className="input-container">
-          {/* Input field with an icon */}
+          {/* Input field */}
           <input
             type="text"
             placeholder="Ask something here..."
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            onKeyDown={handleKeyDown} // Add keydown event listener
+            onKeyDown={handleKeyDown} // Enter key event
             disabled={onLoading} // Disable input while loading
           />
+
+          {/* Send Button (Inside Input) */}
           <button
+            type="submit"
+            className="send-btn"
             onClick={handleAskQuestion}
-            disabled={onLoading || question == ""} // Disable button while loading or empty input
+            disabled={onLoading || question === ""}
           >
-            {/* Icon added to the button */}
             <MdSend />
           </button>
         </div>

@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
-// import { FcRight, FcLeft, FcNews } from "react-icons/fc";
 import {
-  MdLogout,
-  MdLogin,
-  MdSwitchAccount,
-  MdReceiptLong,
-} from "react-icons/md";
+  FaInfoCircle,
+  FaQuestionCircle,
+  FaTransgenderAlt,
+  FaLink,
+  FaBook,
+} from "react-icons/fa";
+import { FaEarthAsia } from "react-icons/fa6";
+import { BsChatDotsFill } from "react-icons/bs";
+import { RiChatAiFill } from "react-icons/ri";
+import { MdMail } from "react-icons/md";
+import {
+  TbLayoutSidebarLeftCollapseFilled,
+  TbLayoutSidebarRightCollapseFilled,
+} from "react-icons/tb";
+
 import "../styles/Sidebar.css";
 
-function Sidebar() {
+function Sidebar({ setShowFAQ, setShowFeedback }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [previousQuestions, setPreviousQuestions] = useState([]);
 
@@ -17,91 +26,135 @@ function Sidebar() {
   };
 
   useEffect(() => {
-    // Load history from localStorage
     const storedHistory =
       JSON.parse(localStorage.getItem("questionHistory")) || [];
-    setPreviousQuestions(storedHistory.slice(0, 5)); // Show the last 5 questions
-  }, []); // Runs only on component mount
+    setPreviousQuestions(storedHistory.slice(0, 5));
+  }, []);
 
   return (
     <aside className={`sidebar ${isCollapsed ? "collapsed" : ""}`}>
       <div className="sidebar-content">
-        <button className="toggle-button sidebar-icon" onClick={toggleSidebar}>
-          <div className="sidebar-icon">
-            {isCollapsed ? <MdLogout /> : <MdLogin />}
-          </div>
-          {!isCollapsed && (
-            <div className="sidebar-text">
-              <h4>Dashboard</h4>
-            </div>
+        {/* Sidebar Toggle Button */}
+        <p className="toggle-button sidebar-icon" onClick={toggleSidebar}>
+          {isCollapsed ? (
+            <TbLayoutSidebarLeftCollapseFilled size={25} />
+          ) : (
+            <TbLayoutSidebarRightCollapseFilled size={25} />
           )}
-        </button>
-        {!isCollapsed && (
-          <>
-            <button
-              className="faq-button"
-              onClick={() =>
-                // window.open("https://www.indiaspend.com/about-us", "_blank")
-                window.open("https://www.indiaspend.com/about-us")
-              }
-            >
-              <div className="sidebar-icon">
-                <MdSwitchAccount />
-              </div>
-              <div className="sidebar-text">
-                <h4>About </h4>
-              </div>
-            </button>
+          <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
+            Collapse
+          </span>
+        </p>
 
-            <button
-              className="new-thread-button"
-              onClick={() => window.location.reload()} // Reload the page
-            >
-              <div className="sidebar-icon">
-                <MdReceiptLong />
-              </div>
-              <div className="sidebar-text">
-                <h4>Start new thread</h4>
-              </div>
-            </button>
+        {/* Quick Links */}
+        <div className={`ttlquicklink ${isCollapsed ? "" : "hidden"}`}>
+          <h2>Quick Links</h2>
+        </div>
 
-            <div className="previous-questions">
-              <h4>Previous 7 Days</h4>
-              {previousQuestions.length > 0 ? (
-                <ul>
-                  {previousQuestions.map((item, index) => (
-                    <li key={index}>
-                      <strong>Q:</strong> <h4>{item.question}</h4>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <h5>No previous questions available</h5>
-              )}
-            </div>
-          </>
-        )}
-        {isCollapsed && (
-          <>
-            <button
-              className="faq-button"
-              onClick={() =>
-                // window.open("https://www.indiaspend.com/about-us", "_blank")
-                window.open("https://www.indiaspend.com/about-us")
-              }
-            >
-              <div className="sidebar-icon">
-                <MdSwitchAccount />
-              </div>
-            </button>
+        {[
+          {
+            text: "IndiaSpend",
+            link: "https://www.indiaspend.com",
+            icon: <FaLink />,
+          },
+          {
+            text: "Earthcheck India",
+            link: "https://www.indiaspend.com/earthcheckindia",
+            icon: <FaEarthAsia />,
+          },
+          {
+            text: "Education Check",
+            link: "https://www.indiaspend.com/education-check",
+            icon: <FaBook />,
+          },
+          {
+            text: "GenderCheck",
+            link: "https://www.indiaspend.com/gendercheck",
+            icon: <FaTransgenderAlt />,
+          },
+          {
+            text: "Newsletters",
+            link: "https://www.indiaspend.com/subscribe",
+            icon: <MdMail />,
+          },
+          {
+            text: "About",
+            link: "https://www.indiaspend.com/about-us",
+            icon: <FaInfoCircle />,
+          },
+        ].map((item, index) => (
+          <p
+            key={index}
+            className="faq-button"
+            onClick={() => window.open(item.link)}
+          >
+            <div className="sidebar-icon">{item.icon}</div>
+            <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
+              {item.text}
+            </span>
+          </p>
+        ))}
 
-            <button className="new-thread-button">
-              <div className="sidebar-icon">
-                <MdReceiptLong />
-              </div>
-            </button>
-          </>
-        )}
+        {/* FAQ Button */}
+        <p
+          className="faq-button"
+          onClick={() => {
+            setShowFAQ(true);
+            setShowFeedback(false); // ✅ Feedback ko close karein
+          }}
+        >
+          <div className="sidebar-icon">
+            <FaQuestionCircle />
+          </div>
+          <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
+            FAQ
+          </span>
+        </p>
+
+        {/* Feedback Button ✅ */}
+        <p
+          className="faq-button"
+          onClick={() => {
+            setShowFeedback(true);
+            setShowFAQ(false); // ✅ FAQ ko close karein
+          }}
+        >
+          <div className="sidebar-icon">
+            <BsChatDotsFill />
+          </div>
+          <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
+            Feedback
+          </span>
+        </p>
+
+        {/* New Thread Button */}
+        <p
+          className="new-thread-button"
+          onClick={() => window.location.reload()}
+        >
+          <div className="sidebar-icon">
+            <RiChatAiFill />
+          </div>
+          <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
+            Start new thread
+          </span>
+        </p>
+
+        {/* ✅ Previous Questions - Always Visible */}
+        <div className="previous-questions">
+          <h2>Previous 7 Days</h2>
+          {previousQuestions.length > 0 ? (
+            <ul>
+              {previousQuestions.map((item, index) => (
+                <li key={index}>
+                  <p>{item.question}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <h5>No previous questions available</h5>
+          )}
+        </div>
       </div>
     </aside>
   );

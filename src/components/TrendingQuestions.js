@@ -1,14 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
-import { FcVoicePresentation, FcReading, FcQuestions } from "react-icons/fc";
-import {
-  MdPsychologyAlt,
-  MdOutlineAutoStories,
-  MdOutlineSpeakerNotes,
-} from "react-icons/md";
+import { MdOutlineRefresh } from "react-icons/md";
+// import { HiRefresh } from "react-icons/hi";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
-import { LuRefreshCcwDot } from "react-icons/lu";
 
+import logo from "../assets/ask_indiaspend.svg";
 import Footer from "./Footer";
 import "../styles/TrendingQuestions.css";
 
@@ -37,7 +33,7 @@ const getRandomIcon = (icons) => {
   return icons[randomIndex];
 };
 
-const questionIcons = [<MdOutlineSpeakerNotes />];
+const questionIcons = [];
 
 function TrendingQuestions() {
   const [questions, setQuestions] = useState([]);
@@ -111,6 +107,7 @@ function TrendingQuestions() {
     let isFirstMessage = true; // Flag to check if it's the first message
     let fetchedSources = [];
     let articleInfo;
+    const urlsToRemove = ["https://www.indiaspend.com/the-gender-skew/"];
 
     try {
       const eventSource = new EventSource(
@@ -137,8 +134,7 @@ function TrendingQuestions() {
         if (event.data === "[end]") {
           // console.log("End of stream received.");
           eventSource.close(); // Close the stream
-          // console.log(fetchedAnswer);
-          //
+
           if (fetchedAnswer.includes("Sources:")) {
             // Find the index of "Sources:"
             const sourcesIndex = fetchedAnswer.indexOf("Sources:");
@@ -168,6 +164,26 @@ function TrendingQuestions() {
           if (data.sources) {
             // console.log("Sources received:", data.sources);
             fetchedSources = data.sources;
+            console.log(fetchedAnswer);
+            const urlRegex = /(https?:\/\/[^\s)]+)/g;
+            const extractedUrls = fetchedAnswer.match(urlRegex);
+            console.log("extractedUrls", extractedUrls);
+
+            if (extractedUrls) {
+              urlsToRemove.push(...extractedUrls);
+            }
+            //
+            console.log(urlsToRemove, "urlsToRemove", extractedUrls);
+
+            // Apply filter
+            fetchedSources = fetchedSources.filter((url) => {
+              const shouldRemove = urlsToRemove.includes(url);
+              if (shouldRemove) {
+                console.log("Removing:", url); // Debugging ke liye
+              }
+              return !shouldRemove;
+            });
+
             articleInfo = await fetchMetadataFromApi(fetchedSources);
             // console.log(articleInfo);
             setSources(data.sources); // Update sources state
@@ -280,53 +296,52 @@ function TrendingQuestions() {
 
   // Render sources section with metadata
   const renderSources = (itemSources) => {
-    if (
-      !itemSources ||
-      !itemSources.final_response ||
-      itemSources.final_response.length === 0
-    ) {
-      return null; // If there are no sources, return null or handle accordingly
+    if (!itemSources?.final_response?.length) {
+      return null; // If there are no sources, return null
     }
 
-    console.log(itemSources); // For debugging, ensure the structure is correct
+    console.log("Item sources:", itemSources); // Debugging
 
-    // Remove duplicates based on the post_url
+    // Remove duplicates based on post_url
     const uniqueSources = itemSources.final_response.filter(
       (source, index, self) =>
         index === self.findIndex((s) => s.post_url === source.post_url)
     );
 
+    // Show shimmer effect if loading
+    if (loading) {
+      return (
+        <div className="loading">
+          <div className="skeleton-card">
+            <div className="skeleton-loader"></div>
+            <div className="skeleton-item"></div>
+            <div className="skeleton-item"></div>
+            <div className="skeleton-item"></div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <ul ref={sourcesRef}>
-        {loading ? (
-          <div className="loading">
-            <div className="skeleton-card">
-              <div className="skeleton-loader"></div>
-              <div className="skeleton-item"></div>
-              <div className="skeleton-item"></div>
-              <div className="skeleton-item"></div>
+        {uniqueSources.map((source, index) => (
+          <li key={index} className="sources-tle-url">
+            <div className="txt-source-url">
+              <a
+                href={source.post_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={source.preview_image_url}
+                  alt={source.title}
+                  className="source-image"
+                />
+                <span>{source.title || source.post_url}</span>
+              </a>
             </div>
-          </div>
-        ) : (
-          uniqueSources.map((source, index) => (
-            <li key={index} className="sources-tle-url">
-              <div className="txt-source-url">
-                <a
-                  href={source.post_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={source.preview_image_url}
-                    alt={source.title}
-                    className="source-image"
-                  />
-                  <span>{source.title || source.post_url}</span>
-                </a>
-              </div>
-            </li>
-          ))
-        )}
+          </li>
+        ))}
       </ul>
     );
   };
@@ -363,13 +378,19 @@ function TrendingQuestions() {
                   >
                     <div className="question-content">
                       <div className="question-icon">
-                        <MdPsychologyAlt />
+                        {/* <FaUserCircle /> */}
                       </div>
-                      <h2 className="question-text">{item.question}</h2>
+                      <h4 className="question-text text-2xl font-semibold">
+                        {item.question}
+                      </h4>
                     </div>
                     <div className="answer-content">
                       <div className="answer-icon">
-                        <MdOutlineAutoStories />
+                        <img
+                          src={logo}
+                          alt="Ask IndiaSpend"
+                          className="custom-icon"
+                        />
                       </div>
                       <p
                         className="answer-preview"
@@ -383,12 +404,14 @@ function TrendingQuestions() {
                         </ReactMarkdown>
                         {(expandedAnswer === item.answer ||
                           index === array.length - 1) && (
-                          <div className="sources-section">
+                          <div className="sources-section text-lg">
+                            <div className="txt-source-url">
+                              <span>Related Articles Source</span>
+                            </div>
                             {renderSources(item.sources)}
                           </div>
                         )}
                       </p>
-                      {/* Hide the expand/collapse button for the last item */}
                       {index !== array.length - 1 && (
                         <div className="expand-container">
                           <div
@@ -441,10 +464,20 @@ function TrendingQuestions() {
           <div></div>
         ) : (
           <div className="questions-grid">
-            <div className="tren-q-tit">
-              <h1>Trending Questions</h1>
+            <div className="tren-q-tit ">
+              <h2 className="text-2xl font-bold">Trending Questions</h2>
             </div>
-            <div></div>
+            <div className="refresh-section-container">
+              <div className="refresh-section" onClick={handleRefresh}>
+                <div className=" refreshingrk">
+                  <MdOutlineRefresh />
+                </div>
+                <div className="ref-txt-rk">
+                  {" "}
+                  <h4>Refresh </h4>
+                </div>
+              </div>
+            </div>
             {Array.isArray(questions) && questions.length > 0 ? (
               questions.map((q, index) => (
                 <div
@@ -455,19 +488,22 @@ function TrendingQuestions() {
                   <div className="question-icon">
                     {getRandomIcon(questionIcons)}
                   </div>
-                  <h2 className="question-text">{q}</h2>
+                  <h4 className="question-text text-lg font-semibold ">{q}</h4>
                 </div>
               ))
             ) : (
               <p>No questions found.</p>
             )}
-            <div></div>
+            {/* <div></div>
             <div className="refresh-section" onClick={handleRefresh}>
-              <div className="ref-txt-rk"> Refresh </div>
-              <div className=" refreshingrk">
-                <LuRefreshCcwDot size={25} />
+              <div className="ref-txt-rk">
+                {" "}
+                <h4>Refresh </h4>
               </div>
-            </div>
+              <div className=" refreshingrk">
+                <MdOutlineRefresh />
+              </div>
+            </div> */}
             {/* <div className="question-tt-title">
               <h3>Where Facts Meet Your Questions</h3>
             </div> */}
