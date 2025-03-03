@@ -4,23 +4,23 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import TrendingQuestions from "./components/TrendingQuestions";
 import FAQ from "./components/FAQ";
-import FeedbackForm from "./components/FeedbackForm"; // ✅ Import Feedback Form
+import FeedbackForm from "./components/FeedbackForm";
+// import ChatbotWithGuide from "./components/ChatbotWithGuide";
 import { MdClose } from "react-icons/md";
 
 import "./App.css";
 
 function App() {
   const [showFAQ, setShowFAQ] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false); // ✅ Feedback Modal State
+  const [showFeedback, setShowFeedback] = useState(false);
 
-  // ✅ Function to handle FAQ and Feedback visibility
   const handleShowFAQ = () => {
     setShowFAQ(true);
-    setShowFeedback(false); // Feedback close ho jayega
+    setShowFeedback(false);
   };
 
   const handleShowFeedback = () => {
-    setShowFAQ(false); // FAQ close ho jayega
+    setShowFAQ(false);
     setShowFeedback(true);
   };
 
@@ -33,7 +33,6 @@ function App() {
     <Router>
       <div className="app">
         <div className="main-content">
-          {/* ✅ Pass updated handlers */}
           <Header
             setShowFAQ={setShowFAQ}
             setShowFeedback={setShowFeedback}
@@ -42,30 +41,34 @@ function App() {
           />
 
           <div className="content-container">
+            {/* ✅ Sidebar */}
             <Sidebar
               setShowFAQ={setShowFAQ}
               setShowFeedback={setShowFeedback}
             />
 
-            {/* TrendingQuestions sirf tab dikhe jab FAQ or Feedback band ho */}
+            {/* ✅ TrendingQuestions sirf tab dikhe jab FAQ or Feedback band ho */}
             {!showFAQ && !showFeedback && <TrendingQuestions />}
 
-            {/* FAQ Page */}
+            {/* ✅ Chatbot Component */}
+            {/* <ChatbotWithGuide /> */}
+
+            {/* FAQ Modal */}
             {showFAQ && (
-              <div className="faq-content">
-                {/* <button className="close-btn" onClick={closeModals}>
+              <div className="faq-content modal">
+                <button className="close-btn" onClick={closeModals}>
                   <MdClose size={24} />
-                </button> */}
+                </button>
                 <FAQ />
               </div>
             )}
 
-            {/* Feedback Page */}
+            {/* Feedback Modal */}
             {showFeedback && (
-              <div className="faq-content">
-                {/* <button className="close-btn" onClick={closeModals}>
+              <div className="faq-content modal">
+                <button className="close-btn" onClick={closeModals}>
                   <MdClose size={24} />
-                </button> */}
+                </button>
                 <FeedbackForm />
               </div>
             )}
@@ -73,18 +76,20 @@ function App() {
         </div>
 
         {/* Footer */}
-        <section className="copyright-stion">
-          <div className="copyright-disclaimer-isrk">
-            <div className="disclaim-isd">
-              <p>
-                Disclaimer: This tool uses AI and may generate incorrect or
-                misleading information. Please verify critical details from
-                reliable sources.
-              </p>
-            </div>
-            <div className="copyrigt-isd">
-              <p>&copy; {new Date().getFullYear()} Indiaspend.com</p>
-            </div>
+        <section className="copyright-section">
+          <div className="copyright-disclaimer">
+            <p>
+              Ask IndiaSpend is an AI-powered tool that derives information from
+              IndiaSpend’s articles and interprets data based on our reporting.
+              While we strive to provide accurate and contextual insights, some
+              responses may not be current. For more information, please refer
+              to our stories linked in the responses. For any concerns or
+              clarifications, please reach out to us at{" "}
+              <a href="mailto:respond@indiaspend.org">
+                respond@indiaspend.org.
+              </a>
+            </p>
+            <p>&copy; {new Date().getFullYear()} Indiaspend.com</p>
           </div>
         </section>
       </div>

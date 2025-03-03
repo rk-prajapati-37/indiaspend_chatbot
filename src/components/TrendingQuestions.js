@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { MdOutlineRefresh } from "react-icons/md";
-// import { HiRefresh } from "react-icons/hi";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
-
 import logo from "../assets/ask_indiaspend.svg";
 import Footer from "./Footer";
 import "../styles/TrendingQuestions.css";
@@ -96,7 +94,19 @@ function TrendingQuestions() {
 
     fetchQuestions();
   }, []);
+  // Function to append UTM parameters to a URL
+  function addUtmToUrl(url) {
+    const utmParams = "?utm_source=ask_indiaspend";
 
+    try {
+      let urlObj = new URL(url);
+      urlObj.search += (urlObj.search ? "&" : "") + utmParams.substring(1);
+      return urlObj.toString();
+    } catch (error) {
+      console.error("Invalid URL:", url);
+      return url;
+    }
+  }
   const handleQuestionClick = async (question) => {
     setSelectedQuestion(question);
     setLoading(true);
@@ -108,6 +118,7 @@ function TrendingQuestions() {
     let fetchedSources = [];
     let articleInfo;
     const urlsToRemove = ["https://www.indiaspend.com/the-gender-skew/"];
+    const utmParams = "?utm_source=ask_indiaspend";
 
     try {
       const eventSource = new EventSource(
@@ -165,6 +176,13 @@ function TrendingQuestions() {
             // console.log("Sources received:", data.sources);
             fetchedSources = data.sources;
             console.log(fetchedAnswer);
+            // Modify "Read more" link in fetchedAnswer
+            fetchedAnswer = fetchedAnswer.replace(
+              /\[Read more\]\((https?:\/\/[^\s)]+)\)/g,
+              (match, url) => `[Read more](${addUtmToUrl(url)})`
+            );
+
+            console.log("modifiedAnswer", fetchedAnswer);
             const urlRegex = /(https?:\/\/[^\s)]+)/g;
             const extractedUrls = fetchedAnswer.match(urlRegex);
             console.log("extractedUrls", extractedUrls);
@@ -175,15 +193,30 @@ function TrendingQuestions() {
             //
             console.log(urlsToRemove, "urlsToRemove", extractedUrls);
 
+            console.log(fetchedSources);
+
+            const updatedSources = fetchedSources.map((url) => {
+              try {
+                let urlObj = new URL(url);
+                urlObj.search +=
+                  (urlObj.search ? "&" : "") + utmParams.substring(1);
+                return urlObj.toString();
+              } catch (error) {
+                console.error("Invalid URL:", url);
+                return url;
+              }
+            });
+
+            console.log(updatedSources);
+
             // Apply filter
-            fetchedSources = fetchedSources.filter((url) => {
+            fetchedSources = updatedSources.filter((url) => {
               const shouldRemove = urlsToRemove.includes(url);
               if (shouldRemove) {
                 console.log("Removing:", url); // Debugging ke liye
               }
               return !shouldRemove;
             });
-
             articleInfo = await fetchMetadataFromApi(fetchedSources);
             // console.log(articleInfo);
             setSources(data.sources); // Update sources state
@@ -327,11 +360,7 @@ function TrendingQuestions() {
         {uniqueSources.map((source, index) => (
           <li key={index} className="sources-tle-url">
             <div className="txt-source-url">
-              <a
-                href={source.post_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={source.post_url} target="_blank" rel="noopener ">
                 <img
                   src={source.preview_image_url}
                   alt={source.title}
@@ -345,6 +374,12 @@ function TrendingQuestions() {
       </ul>
     );
   };
+
+  const CustomLink = ({ href, children }) => (
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  );
 
   const answerRefs = useRef({});
 
@@ -396,22 +431,35 @@ function TrendingQuestions() {
                         className="answer-preview"
                         ref={index === 0 ? lastPRef : null}
                       >
-                        <ReactMarkdown>
+                        <ReactMarkdown components={{ a: CustomLink }}>
                           {expandedAnswer === item.answer ||
                           index === array.length - 1
                             ? formatMarkdownToJSX(item.answer)
                             : `${item.answer.substring(0, 250)}...`}
                         </ReactMarkdown>
+
                         {(expandedAnswer === item.answer ||
                           index === array.length - 1) && (
                           <div className="sources-section text-lg">
-                            <div className="txt-source-url">
-                              <span>Related Articles Source</span>
-                            </div>
-                            {renderSources(item.sources)}
+                            {item.sources && (
+                              <div className="txt-source-url">
+                                <span className="rlte-tite">
+                                  Related Articles Source
+                                </span>
+                              </div>
+                            )}
+
+                            {item.sources ? (
+                              renderSources(item.sources)
+                            ) : (
+                              <div className="txt-source-url">
+                                <span className="loading-text">Loading...</span>
+                              </div>
+                            )}
                           </div>
                         )}
                       </p>
+
                       {index !== array.length - 1 && (
                         <div className="expand-container">
                           <div

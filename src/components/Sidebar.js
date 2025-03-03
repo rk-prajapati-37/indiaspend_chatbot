@@ -88,7 +88,7 @@ function Sidebar({ setShowFAQ, setShowFeedback }) {
             className="faq-button"
             onClick={() => window.open(item.link)}
           >
-            <div className="sidebar-icon">{item.icon}</div>
+            <span className="sidebar-icon">{item.icon}</span>
             <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
               {item.text}
             </span>
@@ -103,9 +103,9 @@ function Sidebar({ setShowFAQ, setShowFeedback }) {
             setShowFeedback(false); // ✅ Feedback ko close karein
           }}
         >
-          <div className="sidebar-icon">
+          <span className="sidebar-icon">
             <FaQuestionCircle />
-          </div>
+          </span>
           <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
             FAQ
           </span>
@@ -113,15 +113,15 @@ function Sidebar({ setShowFAQ, setShowFeedback }) {
 
         {/* Feedback Button ✅ */}
         <p
-          className="faq-button"
+          className="faq-button faq-text"
           onClick={() => {
             setShowFeedback(true);
             setShowFAQ(false); // ✅ FAQ ko close karein
           }}
         >
-          <div className="sidebar-icon">
+          <span className="sidebar-icon Feedback-ur-text">
             <BsChatDotsFill />
-          </div>
+          </span>
           <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
             Feedback
           </span>
@@ -132,9 +132,9 @@ function Sidebar({ setShowFAQ, setShowFeedback }) {
           className="new-thread-button"
           onClick={() => window.location.reload()}
         >
-          <div className="sidebar-icon">
+          <span className="sidebar-icon">
             <RiChatAiFill />
-          </div>
+          </span>
           <span className={`sidebar-text ${isCollapsed ? "" : "hidden"}`}>
             Start new thread
           </span>
